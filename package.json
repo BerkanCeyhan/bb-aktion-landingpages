@@ -4,6 +4,7 @@
   "description": "Root workspace to build and merge multiple Vite landing pages for Netlify deployment",
   "private": true,
   "scripts": {
+    "postinstall": "npm run install:all",
     "install:all": "npm install --prefix creatin-hcl && npm install --prefix mystery-box",
     "build:creatin": "npm run build --prefix creatin-hcl",
     "build:mystery": "npm run build --prefix mystery-box",
