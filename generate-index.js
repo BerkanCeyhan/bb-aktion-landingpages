@@ -1,0 +1,39 @@
+const fs = require('fs');
+const path = require('path');
+
+const distPath = path.join(__dirname, 'dist');
+const indexPath = path.join(distPath, 'index.html');
+
+// Ensure dist folder exists
+if (!fs.existsSync(distPath)) {
+    fs.mkdirSync(distPath, { recursive: true });
+}
+
+// Generate a simple index.html for the root
+const htmlContent = `
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Landing Pages</title>
+  <style>
+    body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background: #000; color: #fff; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 10px 0; }
+    a { color: #C8FF00; text-decoration: none; font-size: 1.2rem; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <h1>BrustBizeps Landing Pages</h1>
+  <ul>
+    <li><a href="/creatin-hcl-1/">Creatin HCL 1</a></li>
+    <li><a href="/mystery-box-1/">Mystery Box 1</a></li>
+  </ul>
+</body>
+</html>
+`;
+
+fs.writeFileSync(indexPath, htmlContent);
+console.log('Root index.html generated successfully.');

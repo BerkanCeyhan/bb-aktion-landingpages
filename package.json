@@ -1,0 +1,14 @@
+{
+  "name": "brustbizeps-merged-pages",
+  "version": "1.0.0",
+  "description": "Root workspace to build and merge multiple Vite landing pages for Netlify deployment",
+  "private": true,
+  "scripts": {
+    "install:all": "npm install --prefix creatin-hcl && npm install --prefix mystery-box",
+    "build:creatin": "npm run build --prefix creatin-hcl",
+    "build:mystery": "npm run build --prefix mystery-box",
+    "build": "npm run build:creatin && npm run build:mystery && node generate-index.js",
+    "dev:creatin": "npm run dev --prefix creatin-hcl",
+    "dev:mystery": "npm run dev --prefix mystery-box"
+  }
+}
