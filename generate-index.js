@@ -6,7 +6,7 @@ const indexPath = path.join(distPath, 'index.html');
 
 // Ensure dist folder exists
 if (!fs.existsSync(distPath)) {
-    fs.mkdirSync(distPath, { recursive: true });
+  fs.mkdirSync(distPath, { recursive: true });
 }
 
 // Generate a simple index.html for the root
@@ -28,8 +28,8 @@ const htmlContent = `
 <body>
   <h1>BrustBizeps Landing Pages</h1>
   <ul>
-    <li><a href="/creatin-hcl-1/">Creatin HCL 1</a></li>
-    <li><a href="/mystery-box-1/">Mystery Box 1</a></li>
+    <li><a href="/bb-aktion-landingpages/creatin-hcl-1/">Creatin HCL 1</a></li>
+    <li><a href="/bb-aktion-landingpages/mystery-box-1/">Mystery Box 1</a></li>
   </ul>
 </body>
 </html>
