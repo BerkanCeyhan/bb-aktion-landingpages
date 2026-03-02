@@ -28,8 +28,8 @@ const htmlContent = `
 <body>
   <h1>BrustBizeps Landing Pages</h1>
   <ul>
-    <li><a href="/bb-aktion-landingpages/creatin-hcl-1/">Creatin HCL 1</a></li>
-    <li><a href="/bb-aktion-landingpages/mystery-box-1/">Mystery Box 1</a></li>
+    <li><a href="/creatin-hcl-1/">Creatin HCL 1</a></li>
+    <li><a href="/mystery-box-1/">Mystery Box 1</a></li>
   </ul>
 </body>
 </html>
