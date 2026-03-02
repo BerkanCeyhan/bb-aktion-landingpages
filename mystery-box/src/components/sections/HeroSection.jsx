@@ -97,7 +97,7 @@ export function HeroSection() {
                     </h1>
 
                     <p ref={subRef} className="text-xl md:text-2xl text-dark-muted font-sans max-w-2xl mb-10 leading-relaxed">
-                        Die Brustbizeps Mystery Box. Keine Restposten, kein Müll. Nur verifizierte Bestseller für deinen Muskelaufbau mit <strong className="text-dark-text">50-80% Rabatt</strong>.
+                        Die Brustbizeps Mystery Box. Keine Restposten, kein Müll. Nur verifizierte Bestseller für deinen Muskelaufbau mit <strong className="text-dark-text">40-80% Rabatt</strong>.
                     </p>
 
                     <div ref={ctaRef} className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">

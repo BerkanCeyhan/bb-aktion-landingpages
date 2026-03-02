@@ -45,7 +45,7 @@ export function InterestSection() {
         {
             icon: <TrendingUp size={40} className="text-brand-orange mb-4" />,
             title: "Mehr Wert als dein Kaufpreis.",
-            desc: "Der Warenwert deiner Mystery Box liegt nachweislich bei +40-80% über dem Verkaufspreis. Egal ob S, M oder XL – du gewinnst immer."
+            desc: "Der Warenwert deiner Mystery Box liegt nachweislich bei +40-80% über dem Verkaufspreis. Egal ob XS, S, M oder XL – du gewinnst immer."
         },
         {
             icon: <RefreshCw size={40} className="text-brand-volt mb-4" />,

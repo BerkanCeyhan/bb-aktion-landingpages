@@ -40,7 +40,7 @@ export function DesireSection() {
         {
             name: "Leon S.",
             initial: "L",
-            text: "Dachte erst da ist nur abgelaufener Kram drin wie bei anderen. Wurde komplett überrascht. Full-Size Whey, fettes Creatin und Snacks. Warenwert easy 140€ für die XL Box.",
+            text: "Dachte erst da ist nur abgelaufener Kram drin wie bei anderen. Wurde komplett überrascht. Full-Size Whey, fettes Creatin und Snacks. Warenwert easy 120€ für die XL Box.",
             rating: 5
         },
         {
