@@ -38,9 +38,9 @@ export function ProductSelectorSection() {
     };
 
     const snackBoxPrices = {
-        "S-Box (6-8 Snacks)": "19,95€",
-        "M-Box (10-14 Snacks)": "34,90€",
-        "L-Box (18-20 Snacks)": "49,90€"
+        "S-Box (6-8 Snacks)": { original: "19,95€", discounted: "18,76€" },
+        "M-Box (10-14 Snacks)": { original: "29,55€", discounted: "22,46€" },
+        "L-Box (18-20 Snacks)": { original: "45,95€", discounted: "38,14€" }
     };
 
 
@@ -181,11 +181,11 @@ export function ProductSelectorSection() {
                                 </div>
                             </div>
 
-                            <div className="flex flex-col sm:flex-row gap-4 items-center mt-4">
+                            <div className="mt-4 space-y-3">
                                 <button
                                     onClick={() => setIncludeSnackBox(!includeSnackBox)}
                                     className={`
-                    w-full sm:w-auto px-6 py-3 border-2 font-drama uppercase tracking-wider transition-colors
+                    w-full px-6 py-3 border-2 font-drama uppercase tracking-wider transition-colors
                     ${includeSnackBox ? 'bg-brand-orange text-dark-bg border-brand-orange' : 'border-dark-muted text-dark-text hover:border-brand-orange'}
                   `}
                                 >
@@ -193,15 +193,24 @@ export function ProductSelectorSection() {
                                 </button>
 
                                 {includeSnackBox && (
-                                    <select
-                                        value={snackSize}
-                                        onChange={(e) => setSnackSize(e.target.value)}
-                                        className="w-full sm:w-auto bg-dark-bg border border-brand-orange text-dark-text p-3 font-sans outline-none focus:ring-1 focus:ring-brand-orange appearance-none"
-                                    >
-                                        {Object.keys(SNACK_BOX_VARIANTS).map(size => (
-                                            <option key={size} value={size}>{size} (+ {snackBoxPrices[size]})</option>
-                                        ))}
-                                    </select>
+                                    <div className="space-y-2">
+                                        <select
+                                            value={snackSize}
+                                            onChange={(e) => setSnackSize(e.target.value)}
+                                            className="w-full bg-dark-bg border border-brand-orange text-dark-text p-3 font-sans outline-none focus:ring-1 focus:ring-brand-orange"
+                                        >
+                                            {Object.keys(SNACK_BOX_VARIANTS).map(size => (
+                                                <option key={size} value={size}>{size}</option>
+                                            ))}
+                                        </select>
+                                        <div className="flex items-center justify-between px-1 text-sm">
+                                            <span className="text-dark-muted font-sans">Preis:</span>
+                                            <div className="flex items-center gap-2">
+                                                <span className="text-brand-volt font-mono font-bold">+{snackBoxPrices[snackSize].discounted}</span>
+                                                <span className="text-dark-muted font-mono line-through text-xs">{snackBoxPrices[snackSize].original}</span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 )}
                             </div>
                         </div>
