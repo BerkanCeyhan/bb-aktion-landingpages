@@ -5,13 +5,15 @@
   "private": true,
   "scripts": {
     "postinstall": "npm run install:all",
-    "install:all": "npm install --prefix creatin-hcl && npm install --prefix creatin-hcl-light && npm install --prefix mystery-box",
+    "install:all": "npm install --prefix creatin-hcl && npm install --prefix creatin-hcl-light && npm install --prefix mystery-box && npm install --prefix mystery-box-light",
     "build:creatin": "npm run build --prefix creatin-hcl",
     "build:creatin-light": "npm run build --prefix creatin-hcl-light",
     "build:mystery": "npm run build --prefix mystery-box",
-    "build": "npm run build:creatin && npm run build:creatin-light && npm run build:mystery && node generate-index.js",
+    "build:mystery-light": "npm run build --prefix mystery-box-light",
+    "build": "npm run build:creatin && npm run build:creatin-light && npm run build:mystery && npm run build:mystery-light && node generate-index.js",
     "dev:creatin": "npm run dev --prefix creatin-hcl",
     "dev:creatin-light": "npm run dev --prefix creatin-hcl-light",
-    "dev:mystery": "npm run dev --prefix mystery-box"
+    "dev:mystery": "npm run dev --prefix mystery-box",
+    "dev:mystery-light": "npm run dev --prefix mystery-box-light"
   }
 }

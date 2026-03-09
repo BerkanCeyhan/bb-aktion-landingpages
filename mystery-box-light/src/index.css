@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow+Condensed:ital,wght@0,600;0,800;1,600;1,800&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-brand-bg text-brand-text font-sans antialiased overflow-x-hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading tracking-tight;
+  }
+}
+
+@layer utilities {
+  .text-shadow-neon {
+    text-shadow: 0 0 10px rgba(255, 117, 40, 0.5), 0 0 20px rgba(255, 117, 40, 0.3);
+  }
+
+  .text-shadow-volt {
+    text-shadow: 0 0 10px rgba(200, 255, 0, 0.5), 0 0 20px rgba(200, 255, 0, 0.3);
+  }
+
+  .box-shadow-neon {
+    box-shadow: 0 0 15px rgba(255, 117, 40, 0.2), inset 0 0 10px rgba(255, 117, 40, 0.1);
+  }
+
+  .box-shadow-volt {
+    box-shadow: 0 0 15px rgba(200, 255, 0, 0.2), inset 0 0 10px rgba(200, 255, 0, 0.1);
+  }
+}
+
+/* Custom Scrollbar for light theme */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-brand-bg;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-brand-surface2 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-brand-orange;
+}
+
+/* Utility to hide scrollbar but keep functionality if needed */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
