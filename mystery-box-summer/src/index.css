@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Fredoka:wght@500;600;700&family=Hanken+Grotesk:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-dark-bg text-dark-text font-sans antialiased overflow-x-hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-heading tracking-tight;
+  }
+}
+
+@layer utilities {
+  /* Light-theme replacements for the old neon glows: warm, soft elevation
+     instead of dark-mode bloom. Class names kept so markup stays unchanged. */
+  .text-shadow-neon {
+    text-shadow: none;
+  }
+
+  .text-shadow-volt {
+    text-shadow: none;
+  }
+
+  .box-shadow-neon {
+    box-shadow: 0 10px 24px -10px rgba(255, 107, 44, 0.55);
+  }
+
+  .box-shadow-volt {
+    box-shadow: 0 10px 24px -10px rgba(255, 46, 126, 0.55);
+  }
+
+  /* Sun-streak halftone for warm section atmosphere. */
+  .sun-rays {
+    background-image: repeating-conic-gradient(
+      from 0deg at 50% 0%,
+      rgba(255, 178, 46, 0.12) 0deg 6deg,
+      transparent 6deg 12deg
+    );
+  }
+}
+
+/* Custom Scrollbar for light theme */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-dark-surface2;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-brand-orange rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-brand-volt;
+}
+
+/* Utility to hide scrollbar but keep functionality if needed */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
