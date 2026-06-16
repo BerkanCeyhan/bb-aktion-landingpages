@@ -8,6 +8,11 @@
   status = 200
 
 [[redirects]]
+  from = "/creatin-hcl-pro/*"
+  to = "/creatin-hcl-pro/index.html"
+  status = 200
+
+[[redirects]]
   from = "/mystery-box-1/*"
   to = "/mystery-box-1/index.html"
   status = 200

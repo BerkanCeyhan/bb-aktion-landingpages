@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+@theme {
+  /* Light, material-rich "Clinical Performance" system.
+     Token names kept from the dark original so component markup stays portable. */
+  --color-brand-bg: #F1ECE1;        /* warm bone canvas */
+  --color-brand-surface: #FBFAF5;   /* paper white (cards/panels) */
+  --color-brand-sand: #E6DFD0;      /* sand: secondary surface, dividers */
+  --color-brand-text: #15181E;      /* near-black ink */
+  --color-brand-muted: #5B5547;     /* warm muted ink (readable secondary copy) */
+  --color-brand-accent: #1E50E5;    /* cobalt: data, links, selected, trust */
+  --color-brand-signal: #FF4D17;    /* signal orange: CTA + urgency only */
+  --color-brand-slab: #14181F;      /* dark ink slab for contrast sections */
+
+  --font-heading: "Anton", "Arial Narrow", sans-serif;     /* condensed athletic display */
+  --font-drama: "Archivo", system-ui, sans-serif;           /* heavy uppercase subheads (use 800) */
+  --font-mono: "Martian Mono", ui-monospace, monospace;     /* dosing / data labels */
+  --font-body: "Hanken Grotesk", system-ui, sans-serif;     /* body */
+}
+
+:root {
+  background-color: var(--color-brand-bg);
+  color: var(--color-brand-text);
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Anton is a poster face — tighten tracking so big headlines lock up. */
+.font-heading { letter-spacing: -0.01em; }
+
+/* ---- Material textures (the look lives here, not in extra colours) ---- */
+
+/* Fine paper grain. Drop as an absolute inset-0 overlay inside a section. */
+.tex-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+  opacity: 0.05;
+}
+/* Same grain but for dark slabs (screen blend, so it reads as light dust). */
+.tex-grain-dark { mix-blend-mode: screen; opacity: 0.06; }
+
+/* Brushed metal panel: vertical hairline striations over a cool plate. */
+.tex-metal {
+  background-color: #DDD8CE;
+  background-image:
+    linear-gradient(180deg, rgba(255,255,255,0.6), rgba(0,0,0,0.06)),
+    repeating-linear-gradient(90deg, rgba(0,0,0,0.05) 0 1px, transparent 1px 3px);
+}
+
+/* Pressed-paper card: light top edge, soft drop, hairline. */
+.edge-emboss {
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.8),
+    inset 0 -1px 0 rgba(21,24,30,0.06),
+    0 18px 40px -28px rgba(21,24,30,0.45);
+}
+
+/* Embossed label foil (used on dose/spec chips). */
+.foil {
+  background: linear-gradient(135deg, #fdfcf8, #e9e3d6);
+  box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba(21,24,30,0.12);
+}
+
+/* Hairline rule helper in ink. */
+.rule { border-color: color-mix(in srgb, var(--color-brand-text) 14%, transparent); }
+
+/* Deconstructed section seams (sloped transitions between materials). */
+.clip-slope-b { clip-path: polygon(0 0, 100% 0, 100% calc(100% - 3vw), 0 100%); }
+.clip-slope-t { clip-path: polygon(0 3vw, 100% 0, 100% 100%, 0 100%); }
+
+/* Base utility for hiding scrollbar but allowing scroll */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }

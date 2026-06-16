@@ -30,6 +30,7 @@ const htmlContent = `
   <ul>
     <li><a href="/creatin-hcl-1/">Creatin HCL 1</a></li>
     <li><a href="/creatin-hcl-light/">Creatin HCL Light</a></li>
+    <li><a href="/creatin-hcl-pro/">Creatin HCL Pro</a></li>
     <li><a href="/mystery-box-1/">Mystery Box 1</a></li>
     <li><a href="/mystery-box-light/">Mystery Box Light</a></li>
     <li><a href="/mystery-box-summer/">Mystery Box Summer</a></li>
