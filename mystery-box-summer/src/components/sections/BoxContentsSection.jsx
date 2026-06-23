@@ -9,7 +9,7 @@ gsap.registerPlugin(ScrollTrigger);
 // what can land in a box. Each box is randomised, so this is "kann", not "wird".
 const PRODUCTS = [
     { file: 'whey.png', name: 'Premium Whey Protein' },
-    { file: 'oatbar.png', name: 'Oat Bar Haferriegel' },
+    { file: 'zerosauce.png', name: 'Zero Sauce' },
     { file: 'creatin.png', name: 'Creatin' },
     { file: 'chips.png', name: 'Protein Chips' },
     { file: 'shaker.png', name: 'Shaker' },
@@ -20,8 +20,10 @@ const PRODUCTS = [
     { file: 'proteinbar.png', name: 'Premium Protein Bar Riegel' },
     { file: 'clearwhey.png', name: 'Clear Whey Beef Protein Isolate' },
     { file: 'pudding.png', name: 'Protein Pudding' },
-    { file: 'riegelblock.png', name: 'Protein Riegel Block' },
+    { file: 'geschmackspulver.png', name: 'Geschmacksbombe Geschmackspulver' },
     { file: 'proteinsnack.png', name: 'Nutrend Protein Snack' },
+    { file: 'oatbar.png', name: 'Oat Bar Haferriegel' },
+    { file: 'riegelblock.png', name: 'Protein Riegel Block' },
 ];
 
 // Deterministic small tilts so the spread feels hand-scattered, not gridded.
