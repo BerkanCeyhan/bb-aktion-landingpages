@@ -5,19 +5,25 @@
   "private": true,
   "scripts": {
     "postinstall": "npm run install:all",
-    "install:all": "npm install --prefix creatin-hcl && npm install --prefix creatin-hcl-light && npm install --prefix creatin-hcl-pro && npm install --prefix mystery-box && npm install --prefix mystery-box-light && npm install --prefix mystery-box-summer",
+    "install:all": "npm install --prefix creatin-hcl && npm install --prefix creatin-hcl-light && npm install --prefix creatin-hcl-pro && npm install --prefix mystery-box && npm install --prefix mystery-box-light && npm install --prefix mystery-box-summer && npm install --prefix quiz-creatin-hcl && npm install --prefix quiz-mystery-box && npm install --prefix quiz-eaa",
     "build:creatin": "npm run build --prefix creatin-hcl",
     "build:creatin-light": "npm run build --prefix creatin-hcl-light",
     "build:creatin-pro": "npm run build --prefix creatin-hcl-pro",
     "build:mystery": "npm run build --prefix mystery-box",
     "build:mystery-light": "npm run build --prefix mystery-box-light",
     "build:mystery-summer": "npm run build --prefix mystery-box-summer",
-    "build": "npm run build:creatin && npm run build:creatin-light && npm run build:creatin-pro && npm run build:mystery && npm run build:mystery-light && npm run build:mystery-summer && node generate-index.js",
+    "build:quiz-creatin": "npm run build --prefix quiz-creatin-hcl",
+    "build:quiz-mystery": "npm run build --prefix quiz-mystery-box",
+    "build:quiz-eaa": "npm run build --prefix quiz-eaa",
+    "build": "npm run build:creatin && npm run build:creatin-light && npm run build:creatin-pro && npm run build:mystery && npm run build:mystery-light && npm run build:mystery-summer && npm run build:quiz-creatin && npm run build:quiz-mystery && npm run build:quiz-eaa && node generate-index.js",
     "dev:creatin": "npm run dev --prefix creatin-hcl",
     "dev:creatin-light": "npm run dev --prefix creatin-hcl-light",
     "dev:creatin-pro": "npm run dev --prefix creatin-hcl-pro",
     "dev:mystery": "npm run dev --prefix mystery-box",
     "dev:mystery-light": "npm run dev --prefix mystery-box-light",
-    "dev:mystery-summer": "npm run dev --prefix mystery-box-summer"
+    "dev:mystery-summer": "npm run dev --prefix mystery-box-summer",
+    "dev:quiz-creatin": "npm run dev --prefix quiz-creatin-hcl",
+    "dev:quiz-mystery": "npm run dev --prefix quiz-mystery-box",
+    "dev:quiz-eaa": "npm run dev --prefix quiz-eaa"
   }
 }
