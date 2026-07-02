@@ -9,7 +9,7 @@ gsap.registerPlugin(ScrollTrigger);
 // what can land in a box. Each box is randomised, so this is "kann", not "wird".
 const PRODUCTS = [
     { file: 'whey.png', name: 'Premium Whey Protein' },
-    { file: 'oatbar.png', name: 'Oat Bar Haferriegel' },
+    { file: 'zerosauce.png', name: 'Zero Sauce' },
     { file: 'creatin.png', name: 'Creatin' },
     { file: 'chips.png', name: 'Protein Chips' },
     { file: 'shaker.png', name: 'Shaker' },
@@ -20,8 +20,10 @@ const PRODUCTS = [
     { file: 'proteinbar.png', name: 'Premium Protein Bar Riegel' },
     { file: 'clearwhey.png', name: 'Clear Whey Beef Protein Isolate' },
     { file: 'pudding.png', name: 'Protein Pudding' },
-    { file: 'riegelblock.png', name: 'Protein Riegel Block' },
+    { file: 'geschmackspulver.png', name: 'Geschmacksbombe Geschmackspulver' },
     { file: 'proteinsnack.png', name: 'Nutrend Protein Snack' },
+    { file: 'oatbar.png', name: 'Oat Bar Haferriegel' },
+    { file: 'riegelblock.png', name: 'Protein Riegel Block' },
 ];
 
 // Deterministic small tilts so the spread feels hand-scattered, not gridded.
@@ -86,6 +88,19 @@ export function BoxContentsSection() {
                                         loading="lazy"
                                         className="max-h-full max-w-full object-contain drop-shadow-[0_8px_14px_rgba(42,26,11,0.2)] transition-transform duration-300 group-hover:scale-105"
                                     />
+                                </figure>
+                            </div>
+                        ))}
+
+                        {/* Mystery placeholders: signal that the list is not exhaustive */}
+                        {[0, 1].map((i) => (
+                            <div key={`more-${i}`} ref={addTile}>
+                                <figure
+                                    style={{ '--tilt': `${TILTS[(PRODUCTS.length + i) % TILTS.length]}deg` }}
+                                    className="group bg-dark-bg/60 rounded-2xl border border-dashed border-brand-orange/40 p-3 sm:p-4 aspect-square flex flex-col items-center justify-center gap-2 shadow-[0_10px_24px_-16px_rgba(42,26,11,0.5)] rotate-[var(--tilt)] hover:rotate-0 hover:-translate-y-1.5 hover:scale-[1.03] hover:shadow-[0_18px_34px_-18px_rgba(255,107,44,0.5)] transition-transform duration-300 ease-out"
+                                >
+                                    <span className="text-5xl sm:text-6xl font-heading text-brand-orange leading-none">?</span>
+                                    <figcaption className="text-dark-muted font-drama text-sm sm:text-base">und mehr</figcaption>
                                 </figure>
                             </div>
                         ))}

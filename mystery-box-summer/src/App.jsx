@@ -22,10 +22,10 @@ function App() {
     <div className="bg-dark-bg min-h-screen font-sans selection:bg-brand-volt selection:text-dark-bg pb-24">
       <main>
         <HeroSection />
-        <InterestSection />
         <DesireSection />
         <ProductSelectorSection />
         <BoxContentsSection />
+        <InterestSection />
         <ObjectionCrusherSection />
       </main>
       <GuaranteeFooter />
