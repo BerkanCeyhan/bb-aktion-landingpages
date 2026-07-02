@@ -1,0 +1,21 @@
+/* Mystery Box — warm "Summer" theme (matches mystery-box-summer LP). */
+:root {
+  --q-bg: #FBF1DD;
+  --q-surface: #FFFDF7;
+  --q-text: #241C15;
+  --q-muted: #7A6A57;
+  --q-line: color-mix(in srgb, #241C15 12%, transparent);
+  --q-accent: #FF6B2C;          /* summer orange */
+  --q-signal: #FF2E7E;          /* volt pink CTA */
+  --q-signal-ink: #FFFFFF;
+  --q-selected-bg: color-mix(in srgb, #FF6B2C 10%, #FFFDF7);
+
+  --q-font-head: "Bricolage Grotesque", system-ui, sans-serif;
+  --q-font-body: "Hanken Grotesk", system-ui, sans-serif;
+  --q-font-mono: "Fredoka", system-ui, sans-serif;
+
+  --q-head-weight: 800;
+  --q-head-tracking: -0.02em;
+  --q-cta-weight: 700;
+  --q-cta-transform: none;
+}

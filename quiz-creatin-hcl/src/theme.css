@@ -1,0 +1,21 @@
+/* Creatin HCL — "Clinical Performance" theme (matches creatin-hcl-pro LP). */
+:root {
+  --q-bg: #F1ECE1;
+  --q-surface: #FBFAF5;
+  --q-text: #15181E;
+  --q-muted: #5B5547;
+  --q-line: color-mix(in srgb, #15181E 12%, transparent);
+  --q-accent: #1E50E5;          /* cobalt */
+  --q-signal: #FF4D17;          /* signal orange */
+  --q-signal-ink: #FFFFFF;
+  --q-selected-bg: color-mix(in srgb, #1E50E5 8%, #FBFAF5);
+
+  --q-font-head: "Anton", "Arial Narrow", sans-serif;
+  --q-font-body: "Hanken Grotesk", system-ui, sans-serif;
+  --q-font-mono: "Martian Mono", ui-monospace, monospace;
+
+  --q-head-weight: 400;         /* Anton is single-weight */
+  --q-head-tracking: 0.005em;
+  --q-cta-weight: 400;
+  --q-cta-transform: uppercase;
+}
