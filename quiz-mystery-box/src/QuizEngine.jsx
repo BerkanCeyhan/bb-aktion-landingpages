@@ -83,7 +83,7 @@ export default function QuizEngine({ config }) {
             case 'loading':
               return <LoadingScreen key={index} screen={screen} onDone={goNext} />;
             case 'result':
-              return <ResultScreen key={index} result={result} onCta={() => track('QuizCTAClick', { quiz: config.id, result: result.type })} />;
+              return <ResultScreen key={index} result={result} answers={answers} onCta={() => track('QuizCTAClick', { quiz: config.id, result: result.type })} />;
             default:
               return null;
           }
