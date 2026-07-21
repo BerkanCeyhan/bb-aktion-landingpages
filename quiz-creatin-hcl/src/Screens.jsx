@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { track } from './tracking.js';
+import { track, saveSubmission } from './tracking.js';
 
 const BASE = import.meta.env.BASE_URL;
 const img = (name) => `${BASE}quiz-img/${name}.png`;
@@ -221,8 +221,11 @@ function AnimatedCalc({ row }) {
   );
 }
 
-export function ResultScreen({ result, onCta }) {
-  useEffect(() => { track('Lead', { content_name: result.quiz }, true); }, []);
+export function ResultScreen({ result, answers, onCta }) {
+  useEffect(() => {
+    track('Lead', { content_name: result.quiz }, true);
+    saveSubmission(result.quiz, result.type, result.title, answers);
+  }, []);
   return (
     <div className="q-screen q-result">
       <p className="q-eyebrow q-result-eyebrow">{result.eyebrow}</p>
