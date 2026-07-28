@@ -3,193 +3,311 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>7 Gruende, warum bei dir vom Creatin nichts ankommt — BrustBizeps</title>
-<meta name="description" content="Creatin gilt als das am besten untersuchte Supplement ueberhaupt. Trotzdem merken viele nichts. Meist liegt es an einem von sieben Punkten.">
+<title>7 Gründe, warum dein Creatin nicht die erhoffte Wirkung zeigt</title>
+<meta name="description" content="Creatin ist das am besten untersuchte Supplement im Kraftsport. Trotzdem merken viele nichts. Meist liegt es an einem von sieben Punkten, und die wenigsten davon liegen an dir.">
+<meta name="robots" content="index,follow">
+<meta property="og:type" content="article">
+<meta property="og:title" content="7 Gründe, warum dein Creatin nicht die erhoffte Wirkung zeigt">
+<meta property="og:description" content="Meist liegt es an einem von sieben Punkten, und die wenigsten davon liegen an dir.">
+<meta property="og:image" content="https://try.brustbizeps.de/creatin-report/bilder/rueckstand-quer.jpg">
+<link rel="canonical" href="https://try.brustbizeps.de/creatin-report/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700&family=Literata:opsz,wght@7..72,400;7..72,600&display=swap" rel="stylesheet">
 <style>
+  /* Farben in OKLCH, alle Neutraltöne zum Markengrün hin getönt.
+     Kein reines Schwarz, kein reines Weiß. */
   :root{
-    --bg:#0C0C0C; --flaeche:#1A1A1A; --text:#EFEFEF; --leise:#9A9A9A;
-    --akzent:#C8FF00; --linie:#2A2A2A;
+    --papier:      oklch(98.6% 0.007 110);
+    --papier-tief: oklch(96.2% 0.010 110);
+    --tinte:       oklch(24%   0.014 110);
+    --tinte-leise: oklch(47%   0.012 110);
+    --linie:       oklch(89%   0.011 110);
+    --gruen:       oklch(88%   0.190 122);
+    --gruen-tief:  oklch(52%   0.115 122);
+
+    --mass: 65ch;
+    --breit: 62rem;
+
+    --s-1: .25rem; --s-2: .5rem;  --s-3: .75rem; --s-4: 1rem;
+    --s-6: 1.5rem; --s-8: 2rem;   --s-12: 3rem;  --s-16: 4rem; --s-24: 6rem;
+
+    --txt-xs: .78rem; --txt-sm: .95rem; --txt: 1.125rem;
+    --txt-lg: 1.5rem; --txt-xl: clamp(2rem, 6vw, 3.15rem);
   }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
-  body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;
-       font-size:18px;line-height:1.65;-webkit-font-smoothing:antialiased}
-  .wrap{max-width:44rem;margin:0 auto;padding:0 1.25rem}
 
-  header{border-bottom:1px solid var(--linie);padding:1rem 0}
-  .marke{font-family:"Archivo Black",sans-serif;font-size:1rem;letter-spacing:.02em}
-  .marke span{color:var(--akzent)}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    background:var(--papier); color:var(--tinte);
+    font-family:Literata,Georgia,serif; font-size:var(--txt); line-height:1.68;
+    font-optical-sizing:auto; -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
 
-  .kopf{padding:3rem 0 2rem}
-  .kicker{font-family:"Space Mono",monospace;font-size:.75rem;letter-spacing:.14em;
-          text-transform:uppercase;color:var(--akzent)}
-  h1{font-family:"Archivo Black",sans-serif;font-size:clamp(2rem,6vw,3.1rem);
-     line-height:1.08;margin:.75rem 0 1rem;letter-spacing:-.01em}
-  .zeile{font-family:"Space Mono",monospace;font-size:.8rem;color:var(--leise);
-         border-top:1px solid var(--linie);border-bottom:1px solid var(--linie);
-         padding:.75rem 0;margin-top:1.5rem}
-  .vorspann{font-size:1.19rem;color:#D6D6D6;margin:2rem 0}
+  .spalte{max-width:min(var(--mass),100%); margin-inline:auto; padding-inline:var(--s-6)}
+  .weit{max-width:min(var(--breit),100%); margin-inline:auto; padding-inline:var(--s-6)}
+  img{max-width:100%; height:auto}
+  h1,h2,p,figcaption{overflow-wrap:break-word}
 
-  h2{font-family:"Archivo Black",sans-serif;font-size:1.32rem;line-height:1.25;
-     margin:0 0 .6rem;letter-spacing:-.005em}
-  .punkt{border-top:1px solid var(--linie);padding:2.25rem 0}
-  .nr{font-family:"Space Mono",monospace;font-size:.75rem;color:var(--akzent);
-      letter-spacing:.14em;display:block;margin-bottom:.5rem}
-  .punkt p+p{margin-top:.85rem}
-  .merke{background:var(--flaeche);border-left:3px solid var(--akzent);
-         padding:1rem 1.15rem;margin-top:1.15rem;font-size:.97rem;color:#C9C9C9}
-  .merke b{color:var(--text)}
+  /* ---------- Kopf ---------- */
+  .kopfleiste{border-bottom:1px solid var(--linie); background:var(--papier)}
+  .kopfleiste .spalte{display:flex; align-items:center; justify-content:space-between;
+                    padding-block:var(--s-4)}
+  .marke{font-family:Archivo,system-ui,sans-serif; font-weight:700; font-size:var(--txt-sm);
+         letter-spacing:.06em; text-transform:uppercase; text-decoration:none; color:var(--tinte)}
+  .marke b{background:var(--gruen); padding:.15em .3em; border-radius:2px; font-weight:700}
+  .ressort{font-family:Archivo,system-ui,sans-serif; font-size:var(--txt-xs);
+           letter-spacing:.1em; text-transform:uppercase; color:var(--tinte-leise)}
 
-  .schluss{border-top:1px solid var(--linie);margin-top:2.5rem;padding:2.5rem 0 1rem}
-  .cta{display:block;background:var(--akzent);color:#0C0C0C;text-align:center;
-       font-family:"Archivo Black",sans-serif;font-size:1.05rem;text-decoration:none;
-       padding:1.15rem 1.5rem;margin:1.75rem 0 .75rem;border-radius:2px}
-  .cta:hover{filter:brightness(1.08)}
-  .unterschrift{font-size:.85rem;color:var(--leise);text-align:center}
+  /* ---------- Titelblock ---------- */
+  .titel{padding-block:var(--s-16) var(--s-8)}
+  h1{font-family:Archivo,system-ui,sans-serif; font-weight:700; font-size:var(--txt-xl);
+     line-height:1.06; letter-spacing:-.021em; text-wrap:balance; max-width:19ch}
+  .zeile{margin-top:var(--s-6); padding-top:var(--s-3); border-top:1px solid var(--linie);
+         font-family:Archivo,system-ui,sans-serif; font-size:var(--txt-sm);
+         color:var(--tinte-leise); display:flex; flex-wrap:wrap; gap:var(--s-2) var(--s-4)}
+  .vorspann{margin-top:var(--s-8); font-size:var(--txt-lg); line-height:1.5;
+            letter-spacing:-.005em; text-wrap:pretty}
 
-  footer{border-top:1px solid var(--linie);margin-top:3rem;padding:2rem 0 3.5rem;
-         font-size:.8rem;color:var(--leise)}
-  footer a{color:var(--leise)}
-  @media(max-width:640px){body{font-size:17px}}
+  /* ---------- Bilder, brechen die Textspalte ---------- */
+  figure{margin-block:var(--s-16)}
+  figure img{display:block; width:100%; height:auto; background:var(--papier-tief)}
+  figcaption{margin-top:var(--s-3); font-family:Archivo,system-ui,sans-serif;
+             font-size:var(--txt-sm); line-height:1.45; color:var(--tinte-leise);
+             max-width:52ch}
+
+  /* ---------- Die sieben Punkte ----------
+     Struktur über hängende Ziffern, nicht über Trennlinien. Eine Linie je
+     Punkt wäre die Editorial-Schablone, die überall steht. */
+  .punkt{margin-block:var(--s-12); position:relative}
+  .punkt h2{font-family:Archivo,system-ui,sans-serif; font-weight:700;
+            font-size:var(--txt-lg); line-height:1.2; letter-spacing:-.014em;
+            margin-bottom:var(--s-3); text-wrap:balance}
+  .nr{font-family:Archivo,system-ui,sans-serif; font-weight:500; font-size:var(--txt-sm);
+      color:var(--gruen-tief); display:block; margin-bottom:var(--s-1)}
+  .punkt p+p{margin-top:var(--s-4)}
+
+  @media (min-width:60rem){
+    figure{width:calc(100% + 7rem)}
+    .punkt{padding-left:0}
+    .nr{position:absolute; left:-4.25rem; top:.35rem; margin:0; text-align:right; width:3rem;
+        font-size:var(--txt); }
+  }
+
+  /* ---------- Schluss ---------- */
+  .schluss{margin-top:var(--s-24); padding-top:var(--s-8); border-top:2px solid var(--tinte)}
+  .schluss h2{font-family:Archivo,system-ui,sans-serif; font-weight:700;
+              font-size:var(--txt-lg); letter-spacing:-.014em; margin-bottom:var(--s-4)}
+  .schluss p+p{margin-top:var(--s-4)}
+  .quelle{font-size:var(--txt-sm); color:var(--tinte-leise)}
+
+  .cta{display:inline-block; margin-top:var(--s-8); background:var(--gruen); color:var(--tinte);
+       font-family:Archivo,system-ui,sans-serif; font-weight:700; font-size:var(--txt);
+       letter-spacing:-.005em; text-decoration:none; padding:var(--s-4) var(--s-8);
+       border-radius:3px; transition:transform .28s cubic-bezier(.22,1,.36,1),
+                                     box-shadow .28s cubic-bezier(.22,1,.36,1)}
+  .cta:hover{transform:translateY(-2px); box-shadow:0 8px 22px -10px oklch(52% .115 122 / .55)}
+  .cta:focus-visible{outline:3px solid var(--tinte); outline-offset:3px}
+  .versand{margin-top:var(--s-3); font-size:var(--txt-sm); color:var(--tinte-leise)}
+
+  footer{margin-top:var(--s-24); border-top:1px solid var(--linie); background:var(--papier-tief)}
+  footer .spalte{padding-block:var(--s-8) var(--s-16); font-size:var(--txt-sm);
+                 color:var(--tinte-leise)}
+  footer a{color:var(--tinte-leise)}
+
+  a{color:var(--tinte)}
+  ::selection{background:var(--gruen); color:var(--tinte)}
+
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none !important; transition:none !important}
+    .cta:hover{transform:none}
+  }
 </style>
 </head>
 <body>
 
-<header><div class="wrap"><div class="marke">BRUST<span>BIZEPS</span></div></div></header>
-
-<main class="wrap">
-  <div class="kopf">
-    <div class="kicker">Ratgeber · Supplements</div>
-    <h1>7 Gründe, warum bei dir vom Creatin nichts ankommt</h1>
-    <div class="zeile">Von der BrustBizeps-Redaktion · Lesezeit 3 Minuten</div>
+<header class="kopfleiste">
+  <div class="spalte">
+    <a class="marke" href="https://brustbizeps.de">Brust<b>Bizeps</b></a>
+    <span class="ressort">Ratgeber</span>
   </div>
+</header>
 
-  <p class="vorspann">
-    Creatin ist das am besten untersuchte Supplement im Kraftsport. Trotzdem hört man
-    ständig denselben Satz: „Bei mir wirkt das nicht." In den allermeisten Fällen
-    stimmt das nicht — es kommt nur nichts an. Sieben Gründe, und die wenigsten
-    davon liegen an dir.
-  </p>
+<main>
+  <article class="spalte">
 
-  <section class="punkt">
-    <span class="nr">01</span>
-    <h2>Du erwartest es zu früh</h2>
-    <p>
-      Creatin wirkt nicht wie Koffein. Es füllt einen Speicher, und das dauert. Ohne
-      Ladephase sind die Muskelspeicher erst nach etwa drei bis vier Wochen täglicher
-      Einnahme gesättigt. Wer nach zehn Tagen aufhört, hat den Wirkbereich nie
-      erreicht.
-    </p>
-    <div class="merke"><b>Merke:</b> Vier Wochen sind das Minimum, bevor du überhaupt
-      beurteilen kannst, ob es etwas bringt.</div>
-  </section>
+    <div class="titel">
+      <h1>7 Gründe, warum dein Creatin nicht die erhoffte Wirkung zeigt</h1>
+      <div class="zeile">
+        <span>Von der BrustBizeps-Redaktion</span>
+        <span><time datetime="2026-07-28">28. Juli 2026</time></span>
+        <span>4 Minuten</span>
+      </div>
+      <p class="vorspann">
+        Seit Monaten schluckst du brav dein Pulver, ziehst deine Sätze durch und fragst
+        dich vorm Spiegel trotzdem, wo der Effekt bleibt. Die meisten schieben es auf
+        schlechte Gene oder Abstumpfung. Dabei liegt es fast nie am Muskel selbst.
+        Meistens sind es handfeste Fehler bei der Einnahme, oder eine Form, die gar nicht
+        erst in den Zellen ankommt.
+      </p>
+    </div>
 
-  <section class="punkt">
-    <span class="nr">02</span>
-    <h2>Du nimmst es nur an Trainingstagen</h2>
-    <p>
-      Häufigster Fehler überhaupt. Der Speicher interessiert sich nicht dafür, ob du
-      trainierst — er entleert sich täglich. Wer nur an drei von sieben Tagen nachfüllt,
-      hält ihn dauerhaft halb leer.
-    </p>
-    <p>
-      Der Zeitpunkt am Tag ist dagegen zweitrangig. Wichtig ist, dass es jeden Tag
-      passiert.
-    </p>
-  </section>
+    <figure>
+      <img src="bilder/morgen-quer.jpg" width="1376" height="768" fetchpriority="high"
+           alt="Küchentheke am Vormittag mit einem Glas Wasser, einem Messlöffel und einem aufgeschlagenen karierten Trainingsheft voller Zahlenreihen">
+      <figcaption>Die Wirkung steht nicht auf der Waage, sondern in dem Heft daneben.</figcaption>
+    </figure>
 
-  <section class="punkt">
-    <span class="nr">03</span>
-    <h2>Deine Speicher waren schon fast voll</h2>
-    <p>
-      Creatin steckt in Fleisch und Fisch. Wer viel davon isst, startet bereits nahe am
-      Maximum — und merkt entsprechend wenig. Umgekehrt spüren Vegetarier und Veganer
-      den Unterschied oft am deutlichsten.
-    </p>
-    <p>
-      Das ist der einzige Punkt auf dieser Liste, an dem sich wenig ändern lässt. Er
-      erklärt aber nur einen kleinen Teil der Fälle.
-    </p>
-  </section>
+    <section class="punkt">
+      <span class="nr">01</span>
+      <h2>Zu früh Ergebnisse erwartet</h2>
+      <p>
+        Wer ohne die klassische Ladephase startet, braucht vor allem Geduld. Es dauert
+        drei bis vier Wochen täglicher Einnahme, bis die Speicher in der Muskelzelle
+        gesättigt sind. Erst wenn dieser Zustand erreicht ist, stellt sich der
+        Leistungszuwachs im Training überhaupt ein.
+      </p>
+      <p>
+        Wer nach zwei Wochen genervt aufgibt, weil die Gewichte sich immer noch schwer
+        anfühlen, bricht genau an dem Punkt ab, an dem der spürbare Effekt kurz bevorsteht.
+      </p>
+    </section>
 
-  <section class="punkt">
-    <span class="nr">04</span>
-    <h2>Ein großer Teil löst sich nie auf</h2>
-    <p>
-      Hier wird es interessant. Creatin-Monohydrat besteht aus Kristallen, die sich in
-      kaltem Wasser schlecht lösen. Was du am Boden des Shakers siehst, ist genau das:
-      Pulver, das nie in Lösung gegangen ist. Es geht denselben Weg wieder hinaus, den
-      es gekommen ist.
-    </p>
-    <p>
-      Die Dosis auf der Packung sagt also wenig darüber aus, wie viel tatsächlich
-      ankommt. Creatin-Hydrochlorid ist chemisch anders gebaut und löst sich nach
-      Herstellerangaben von BrustBizeps rund 59-mal besser — deshalb reicht dort eine
-      deutlich kleinere Menge.
-    </p>
-  </section>
+    <section class="punkt">
+      <span class="nr">02</span>
+      <h2>Nur an Trainingstagen eingenommen</h2>
+      <p>
+        Creatin ist kein Booster, den man sich kurz vor dem ersten Satz reinkippt. Es wirkt
+        ausschließlich über einen dauerhaft hohen Spiegel im Gewebe. Wenn du die Dosis an
+        Pausentagen weglässt, leert sich dieser Speicher jedes Mal wieder ein Stück weit.
+      </p>
+      <p>
+        Das Ergebnis ist ein ständiges Auf und Ab, bei dem der Muskel nie die volle
+        Sättigung erreicht. Die Einnahme muss jeden Tag erfolgen, unabhängig davon, ob du
+        schwer hebst oder auf der Couch liegst.
+      </p>
+    </section>
 
-  <section class="punkt">
-    <span class="nr">05</span>
-    <h2>Du misst das Falsche</h2>
-    <p>
-      Creatin macht dich nicht über Nacht sichtbar größer. Es lässt dich eine
-      Wiederholung mehr schaffen, und die nächste auch. Der Effekt steht auf dem
-      Trainingsplan, nicht auf der Waage.
-    </p>
-    <div class="merke"><b>Besser prüfen:</b> Schreib vier Wochen lang Gewicht und
-      Wiederholungen deiner zwei wichtigsten Übungen mit. Dort siehst du es, oder gar
-      nicht.</div>
-  </section>
+    <section class="punkt">
+      <span class="nr">03</span>
+      <h2>Deine Speicher waren von Natur aus fast voll</h2>
+      <p>
+        Nicht jeder Körper reagiert gleich stark auf die Zufuhr von außen. Wer sich ohnehin
+        fleischreich ernährt und regelmäßig Rindfleisch oder Lachs auf dem Teller hat, nimmt
+        bereits über die normale Nahrung Creatin auf. Die körpereigenen Speicher sind dann
+        von vornherein gut gefüllt, und der zusätzliche Effekt fällt entsprechend gering aus.
+      </p>
+      <p>
+        Vegetarier und Veganer spüren den Unterschied dagegen meist sehr deutlich, weil ihre
+        Ausgangswerte durch den Verzicht auf Fleisch niedrig sind.
+      </p>
+    </section>
 
-  <section class="punkt">
-    <span class="nr">06</span>
-    <h2>Du trinkst zu wenig</h2>
-    <p>
-      Creatin zieht Wasser in die Muskelzelle — daher der vollere Look. Wer ohnehin
-      wenig trinkt, gibt dem Körper dafür keinen Spielraum, und der Effekt bleibt
-      hinter dem zurück, was möglich wäre.
-    </p>
-  </section>
+    <figure>
+      <img src="bilder/rueckstand-quer.jpg" width="1376" height="768" loading="lazy"
+           alt="Nahaufnahme eines Trinkglases, in dem sich weißes Pulver nicht aufgelöst hat und als sandige Schicht am Boden liegt">
+      <figcaption>Was am Boden liegen bleibt, hat keine Muskelzelle von innen gesehen.</figcaption>
+    </figure>
 
-  <section class="punkt">
-    <span class="nr">07</span>
-    <h2>Du hast abgebrochen, bevor es wirken konnte</h2>
-    <p>
-      Blähbauch, Druck im Magen, das aufgedunsene Gefühl im Gesicht. Das sind keine
-      Einbildungen, sondern typische Begleiterscheinungen schlecht gelöster
-      Monohydrat-Kristalle im Verdauungstrakt. Und der häufigste Grund, warum Leute
-      nach zwei Wochen aufhören.
-    </p>
-    <p>
-      Wer wegen des Magens abbricht, erfährt nie, ob das Mittel selbst funktioniert
-      hätte.
-    </p>
-  </section>
+    <section class="punkt">
+      <span class="nr">04</span>
+      <h2>Ein großer Teil des Pulvers löst sich nie auf</h2>
+      <p>
+        Schau dir dein Glas nach dem Trinken genauer an. Wenn am Boden eine weiße Schicht
+        zurückbleibt oder feine Körnchen am Rand kleben, hast du einen Teil der Dosis gar
+        nicht aufgenommen.
+      </p>
+      <p>
+        Klassisches Monohydrat löst sich in kaltem Wasser schlecht. Es bildet Kristalle, die
+        sich selbst durch langes Rühren kaum vollständig aufspalten lassen. Was im Glas
+        klumpig bleibt, kann auch die Schleimhaut im Magen-Darm-Trakt nur schwer aufnehmen.
+        Dieser ungelöste Rest wandert wirkungslos durch den Körper und geht am Ende
+        ungenutzt wieder raus.
+      </p>
+    </section>
 
-  <section class="schluss">
-    <h2>Was das zusammengenommen heißt</h2>
-    <p>
-      Fünf der sieben Punkte lassen sich mit Disziplin lösen: täglich nehmen, vier
-      Wochen durchhalten, genug trinken, richtig messen. Zwei nicht — die Löslichkeit
-      und der Magen. Genau daran setzt Creatin-Hydrochlorid an.
-    </p>
-    <p>
-      BrustBizeps Creatin HCL liefert 750 mg pro Portion, löst sich vollständig auf und
-      kommt ohne Ladephase aus. Keine Kristalle am Shakerboden, kein Druck im Magen.
-    </p>
-    <a class="cta" href="https://try.brustbizeps.de/creatin-hcl-1/">Creatin HCL ansehen</a>
-    <p class="unterschrift">Lieferung aus Deutschland · versandkostenfrei ab 49 €</p>
-  </section>
+    <section class="punkt">
+      <span class="nr">05</span>
+      <h2>Auf den falschen Wert geschaut</h2>
+      <p>
+        Viele erwarten nach der ersten Woche, dass die Waage plötzlich mehr anzeigt oder der
+        Arm im Spiegel sofort dicker wirkt. Creatin lagert Wasser jedoch direkt in der
+        Muskelzelle ein, nicht im Unterhautfettgewebe. Wer nur auf sein Gewicht schaut,
+        übersieht das Wesentliche.
+      </p>
+      <p>
+        Der echte Fortschritt steht im Trainingsbuch. Wenn du bei Kniebeugen oder
+        Bankdrücken im letzten Satz sonst bei der siebten Wiederholung eingebrochen bist und
+        jetzt sauber eine achte schaffst: genau das ist die Wirkung.
+      </p>
+    </section>
+
+    <section class="punkt">
+      <span class="nr">06</span>
+      <h2>Dem Körper fehlt das Transportmittel</h2>
+      <p>
+        Damit der Wirkstoff aus dem Magen in die Blutbahn und von dort in die Zelle gelangt,
+        braucht der Organismus ausreichend Flüssigkeit. Creatin bindet Wasser. Wer über den
+        Tag verteilt zu wenig trinkt, nimmt dem Transport die Grundlage und bremst den
+        gewünschten Effekt aus.
+      </p>
+    </section>
+
+    <figure>
+      <img src="bilder/logbuch-quer.jpg" width="1376" height="768" loading="lazy"
+           alt="Aufgeschlagenes handgeschriebenes Trainingslogbuch mit Spalten aus Gewichten und Wiederholungszahlen auf einer Hantelbank">
+      <figcaption>Eine Wiederholung mehr, dann die nächste. Dort zeigt es sich, oder gar nicht.</figcaption>
+    </figure>
+
+    <section class="punkt">
+      <span class="nr">07</span>
+      <h2>Wegen Magenproblemen abgebrochen</h2>
+      <p>
+        Ein drückendes Gefühl im Oberbauch, Blähungen oder leichte Krämpfe kurz nach der
+        Einnahme sind der häufigste Grund, warum Trainierende das Experiment beenden. Diese
+        Beschwerden entstehen fast immer durch schwer lösliche Monohydrat-Kristalle.
+      </p>
+      <p>
+        Weil sie sich im Glas nicht aufgelöst haben, liegen sie als feste Partikel im Magen
+        und ziehen dort Wasser aus dem umliegenden Gewebe an. Das sorgt für die typischen
+        Verdauungsprobleme. Der Betroffene bricht ab und zieht das Fazit, dass er Creatin
+        nicht verträgt, obwohl nur die Darreichung das Problem war.
+      </p>
+    </section>
+
+    <section class="schluss">
+      <h2>Fünf davon liegen in deiner Hand</h2>
+      <p>
+        Du kannst dein Einnahmeschema anpassen, jeden Tag an dein Glas denken, genug trinken
+        und die Leistung im Logbuch vergleichen statt auf der Waage. Das ist Disziplin, und
+        die kostet nichts.
+      </p>
+      <p>
+        Gegen physikalische Eigenschaften hilft Disziplin dagegen wenig. Wenn Kristalle sich
+        im kühlen Wasser nicht auflösen und schwer im Magen liegen, ändert auch langes
+        Rühren nichts an der Aufnahme.
+      </p>
+      <p>
+        Genau dort setzt Creatin HCL von BrustBizeps an. Durch die Bindung an Hydrochlorid
+        erreicht das Pulver <span class="quelle">laut Herstellerangabe</span> eine 59-fach
+        bessere Löslichkeit als herkömmliches Monohydrat. Es löst sich im Glas vollständig
+        auf, kommt ohne Ladephase aus und liefert 750 mg pro Portion. Ohne Rest am Boden,
+        ohne Druck im Bauch.
+      </p>
+      <a class="cta" href="https://try.brustbizeps.de/creatin-hcl-1/">Creatin HCL ansehen</a>
+      <p class="versand">Versand aus Deutschland</p>
+    </section>
+
+  </article>
 </main>
 
-<footer class="wrap">
-  Dieser Beitrag stammt von BrustBizeps und enthält Aussagen zu einem eigenen Produkt.
-  Er ersetzt keine medizinische Beratung.
-  <br><a href="https://brustbizeps.de">brustbizeps.de</a>
+<footer>
+  <div class="spalte">
+    Dieser Beitrag stammt von BrustBizeps und behandelt ein eigenes Produkt. Angaben zur
+    Löslichkeit sind Herstellerangaben. Der Text ersetzt keine medizinische Beratung.
+    <br><a href="https://brustbizeps.de">brustbizeps.de</a>
+  </div>
 </footer>
 
 </body>
