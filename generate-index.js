@@ -44,3 +44,20 @@ const htmlContent = `
 
 fs.writeFileSync(indexPath, htmlContent);
 console.log('Root index.html generated successfully.');
+
+/* Statische Assets nach dist/assets kopieren.
+ *
+ * Werbemotive gehoeren zum Kunden, nicht zum Werkzeug, mit dem sie entstanden
+ * sind. Sie lagen vorher im Wellenpuls-Repo und wurden von dort ausgeliefert;
+ * das ist eine Mandantenverletzung. try.brustbizeps.de ist der Ort von
+ * BrustBizeps, also liegen sie hier.
+ *
+ * Meta laedt Bilder ueber eine oeffentliche URL hoch (ads_creative_upload_image
+ * nimmt nur image_url, keine Bytes) und braucht diesen Weg deshalb. Google Ads
+ * nimmt die Bytes direkt und braucht ihn nicht.
+ */
+const assetsSrc = path.join(__dirname, 'assets');
+if (fs.existsSync(assetsSrc)) {
+  fs.cpSync(assetsSrc, path.join(distPath, 'assets'), { recursive: true });
+  console.log('Assets copied to dist/assets.');
+}
