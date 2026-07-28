@@ -292,10 +292,10 @@
         Genau dort setzt Creatin HCL von BrustBizeps an. Durch die Bindung an Hydrochlorid
         erreicht das Pulver <span class="quelle">laut Herstellerangabe</span> eine 59-fach
         bessere Löslichkeit als herkömmliches Monohydrat. Es löst sich im Glas vollständig
-        auf, kommt ohne Ladephase aus und liefert 750 mg pro Portion. Ohne Rest am Boden,
+        auf, kommt ohne Ladephase aus und liefert 1000 mg pro Portion. Ohne Rest am Boden,
         ohne Druck im Bauch.
       </p>
-      <a class="cta" href="https://try.brustbizeps.de/creatin-hcl-1/">Creatin HCL ansehen</a>
+      <a class="cta" href="https://try.brustbizeps.de/creatin-hcl-pro/" id="cta">Creatin HCL ansehen</a>
       <p class="versand">Versand aus Deutschland</p>
     </section>
 
@@ -310,5 +310,18 @@
   </div>
 </footer>
 
+<script>
+  // Herkunftsparameter vom Artikel auf die Produktseite durchreichen.
+  // Ohne das bricht die Zuordnung genau an der Stelle ab, an der gekauft wird.
+  (function () {
+    var cta = document.getElementById('cta');
+    if (!cta || !location.search) return;
+    var ziel = new URL(cta.href);
+    new URLSearchParams(location.search).forEach(function (wert, name) {
+      if (!ziel.searchParams.has(name)) ziel.searchParams.set(name, wert);
+    });
+    cta.href = ziel.toString();
+  })();
+</script>
 </body>
 </html>
