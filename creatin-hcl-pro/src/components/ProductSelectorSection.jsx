@@ -47,11 +47,18 @@ export default function ProductSelectorSection() {
     const [selectedBundle, setSelectedBundle] = useState(BUNDLES[1]);
 
     const handleCheckout = () => {
-        let url = `https://${SHOP}/cart/${BASE_VARIANT}:${selectedBundle.qty}`;
+        const url = new URL(`https://${SHOP}/cart/${BASE_VARIANT}:${selectedBundle.qty}`);
         if (selectedBundle.discountCode) {
-            url += `?discount=${selectedBundle.discountCode}`;
+            url.searchParams.set('discount', selectedBundle.discountCode);
         }
-        window.location.href = url;
+        // Herkunft mit in den Warenkorb nehmen. Der gclid und die UTM-Parameter
+        // stehen in der Adresse dieser Seite; ab hier ist eine andere Domain
+        // zustaendig, und was jetzt nicht mitgeht, ist fuer die Zuordnung des
+        // Kaufs verloren.
+        new URLSearchParams(window.location.search).forEach((wert, name) => {
+            if (!url.searchParams.has(name)) url.searchParams.set(name, wert);
+        });
+        window.location.href = url.toString();
     };
 
     return (

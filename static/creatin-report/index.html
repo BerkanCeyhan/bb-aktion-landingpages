@@ -14,6 +14,17 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700&family=Literata:opsz,wght@7..72,400;7..72,600&display=swap" rel="stylesheet">
+
+<!-- Google-Tag. Muss auf dieser Seite stehen, nicht nur im Shop: hier landet
+     die gclid aus der Anzeige, und nur ein Tag auf dieser Seite schreibt sie
+     in ein First-Party-Cookie. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-11050879575"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-11050879575');
+</script>
 <style>
   /* Farben in OKLCH, alle Neutraltöne zum Markengrün hin getönt.
      Kein reines Schwarz, kein reines Weiß. */
@@ -54,28 +65,40 @@
   .kopfleiste{border-bottom:1px solid var(--linie); background:var(--papier)}
   .kopfleiste .spalte{display:flex; align-items:center; justify-content:space-between;
                     padding-block:var(--s-4)}
-  .marke{font-family:Archivo,system-ui,sans-serif; font-weight:700; font-size:var(--txt-sm);
-         letter-spacing:.06em; text-transform:uppercase; text-decoration:none; color:var(--tinte)}
-  .marke b{background:var(--gruen); padding:.15em .3em; border-radius:2px; font-weight:700}
+  /* Das Logo ist eine Bilddatei mit schwarzer Wortmarke. Auf dem warmen Papier
+     wirkt reines Schwarz hart, deshalb leicht abgedunkelt statt eingefärbt. */
+  .marke{display:flex; align-items:center; line-height:0}
+  .marke img{height:1.35rem; width:auto; opacity:.88}
   .ressort{font-family:Archivo,system-ui,sans-serif; font-size:var(--txt-xs);
            letter-spacing:.1em; text-transform:uppercase; color:var(--tinte-leise)}
 
-  /* ---------- Titelblock ---------- */
-  .titel{padding-block:var(--s-16) var(--s-8)}
+  /* ---------- Titelblock ----------
+     Reihenfolge: Überschrift, Zeile, Bild, Vorspann. Das Bild steht bewusst
+     vor dem Vorspann: auf dem Telefon entscheidet der erste Bildschirm, und
+     dort soll das Motiv zu sehen sein, nicht der dritte Absatz. */
+  .titel{padding-block:var(--s-12) 0}
   h1{font-family:Archivo,system-ui,sans-serif; font-weight:700; font-size:var(--txt-xl);
      line-height:1.06; letter-spacing:-.021em; text-wrap:balance; max-width:19ch}
   .zeile{margin-top:var(--s-6); padding-top:var(--s-3); border-top:1px solid var(--linie);
          font-family:Archivo,system-ui,sans-serif; font-size:var(--txt-sm);
          color:var(--tinte-leise); display:flex; flex-wrap:wrap; gap:var(--s-2) var(--s-4)}
-  .vorspann{margin-top:var(--s-8); font-size:var(--txt-lg); line-height:1.5;
+  .vorspann{margin-block:var(--s-8) var(--s-4); font-size:var(--txt-lg); line-height:1.5;
             letter-spacing:-.005em; text-wrap:pretty}
 
   /* ---------- Bilder, brechen die Textspalte ---------- */
   figure{margin-block:var(--s-16)}
+  .auftakt{margin-block:var(--s-8) 0}
   figure img{display:block; width:100%; height:auto; background:var(--papier-tief)}
   figcaption{margin-top:var(--s-3); font-family:Archivo,system-ui,sans-serif;
              font-size:var(--txt-sm); line-height:1.45; color:var(--tinte-leise);
              max-width:52ch}
+
+  /* Das Produktbild ist ein Packshot, kein dokumentarisches Motiv. Es bleibt
+     deshalb in der Textspalte und bricht sie nicht auf. */
+  .dose{margin-block:var(--s-8) var(--s-6); display:flex; gap:var(--s-4) var(--s-6);
+        align-items:center; flex-wrap:wrap}
+  .dose img{width:min(12rem,52%); background:none}
+  .dose figcaption{margin-top:0; flex:1 1 15rem}
 
   /* ---------- Die sieben Punkte ----------
      Struktur über hängende Ziffern, nicht über Trennlinien. Eine Linie je
@@ -89,7 +112,7 @@
   .punkt p+p{margin-top:var(--s-4)}
 
   @media (min-width:60rem){
-    figure{width:calc(100% + 7rem)}
+    figure:not(.dose){width:calc(100% + 7rem)}
     .punkt{padding-left:0}
     .nr{position:absolute; left:-4.25rem; top:.35rem; margin:0; text-align:right; width:3rem;
         font-size:var(--txt); }
@@ -129,7 +152,8 @@
 
 <header class="kopfleiste">
   <div class="spalte">
-    <a class="marke" href="https://brustbizeps.de">Brust<b>Bizeps</b></a>
+    <a class="marke" href="https://brustbizeps.de" aria-label="BrustBizeps"
+       ><img src="logo.png" width="300" height="56" alt="BrustBizeps"></a>
     <span class="ressort">Ratgeber</span>
   </div>
 </header>
@@ -144,158 +168,171 @@
         <span><time datetime="2026-07-28">28. Juli 2026</time></span>
         <span>4 Minuten</span>
       </div>
-      <p class="vorspann">
-        Seit Monaten schluckst du brav dein Pulver, ziehst deine Sätze durch und fragst
-        dich vorm Spiegel trotzdem, wo der Effekt bleibt. Die meisten schieben es auf
-        schlechte Gene oder Abstumpfung. Dabei liegt es fast nie am Muskel selbst.
-        Meistens sind es handfeste Fehler bei der Einnahme, oder eine Form, die gar nicht
-        erst in den Zellen ankommt.
-      </p>
     </div>
 
-    <figure>
+    <figure class="auftakt">
       <img src="bilder/morgen-quer.jpg" width="1376" height="768" fetchpriority="high"
            alt="Küchentheke am Vormittag mit einem Glas Wasser, einem Messlöffel und einem aufgeschlagenen karierten Trainingsheft voller Zahlenreihen">
-      <figcaption>Die Wirkung steht nicht auf der Waage, sondern in dem Heft daneben.</figcaption>
+      <figcaption>Jeden Morgen derselbe Messlöffel im Wasser, aber die Werte im Heft
+        verändern sich seit Wochen nicht.</figcaption>
     </figure>
+
+    <p class="vorspann">
+      Du nimmst es seit Monaten, verpasst kaum einen Tag und stehst trotzdem ratlos vor
+      dem Trainingsbuch. Creatin ist der am besten erforschte Zusatz im Kraftsport, aber
+      bei dir passiert einfach nichts. Bevor du die Dose in den Müll wirfst und dich als
+      Non-Responder abstempelst, lohnt sich ein Blick auf die Details. Oft liegt es nicht
+      an deiner Genetik, sondern an Fehlern bei der Einnahme oder der Form des Pulvers.
+    </p>
 
     <section class="punkt">
       <span class="nr">01</span>
-      <h2>Zu früh Ergebnisse erwartet</h2>
+      <h2>Zu früh aufgegeben</h2>
       <p>
-        Wer ohne die klassische Ladephase startet, braucht vor allem Geduld. Es dauert
-        drei bis vier Wochen täglicher Einnahme, bis die Speicher in der Muskelzelle
-        gesättigt sind. Erst wenn dieser Zustand erreicht ist, stellt sich der
-        Leistungszuwachs im Training überhaupt ein.
+        Wer sich montags eine Dose kauft und am Freitag auf spürbare Fortschritte wartet,
+        wird enttäuscht. Der Körper baut die Vorräte in der Muskulatur nur langsam auf.
+        Bis die Speicher tatsächlich gefüllt sind, vergehen Wochen, nicht Tage.
       </p>
       <p>
-        Wer nach zwei Wochen genervt aufgibt, weil die Gewichte sich immer noch schwer
-        anfühlen, bricht genau an dem Punkt ab, an dem der spürbare Effekt kurz bevorsteht.
+        Wer nach vierzehn Tagen genervt aufgibt, hört genau an der Schwelle auf, an der
+        die eigentliche Wirkung überhaupt erst einsetzen könnte.
       </p>
     </section>
 
     <section class="punkt">
       <span class="nr">02</span>
-      <h2>Nur an Trainingstagen eingenommen</h2>
+      <h2>Nur an Trainingstagen genommen</h2>
       <p>
-        Creatin ist kein Booster, den man sich kurz vor dem ersten Satz reinkippt. Es wirkt
-        ausschließlich über einen dauerhaft hohen Spiegel im Gewebe. Wenn du die Dosis an
-        Pausentagen weglässt, leert sich dieser Speicher jedes Mal wieder ein Stück weit.
+        Ein weit verbreiteter Irrtum ist die Annahme, Creatin funktioniere wie Coffein vor
+        dem Workout. Creatin ist kein Booster für den schnellen Pump vor dem Satz, sondern
+        ein Füllstand, den man halten muss.
       </p>
       <p>
-        Das Ergebnis ist ein ständiges Auf und Ab, bei dem der Muskel nie die volle
-        Sättigung erreicht. Die Einnahme muss jeden Tag erfolgen, unabhängig davon, ob du
-        schwer hebst oder auf der Couch liegst.
+        Wenn du das Pulver nur an den drei oder vier Tagen nimmst, an denen du ins Studio
+        gehst, sinkt der Spiegel an den restlichen Tagen wieder ab. Der Muskel wird so nie
+        vollständig gesättigt, weil du die Vorräte ständig wieder leerlaufen lässt.
       </p>
     </section>
 
     <section class="punkt">
       <span class="nr">03</span>
-      <h2>Deine Speicher waren von Natur aus fast voll</h2>
+      <h2>Auf das falsche Zeichen geschaut</h2>
       <p>
-        Nicht jeder Körper reagiert gleich stark auf die Zufuhr von außen. Wer sich ohnehin
-        fleischreich ernährt und regelmäßig Rindfleisch oder Lachs auf dem Teller hat, nimmt
-        bereits über die normale Nahrung Creatin auf. Die körpereigenen Speicher sind dann
-        von vornherein gut gefüllt, und der zusätzliche Effekt fällt entsprechend gering aus.
+        Viele Trainierende warten vergeblich auf ein höheres Gewicht auf der Waage oder
+        prallere Oberarme im Umkleidekabinen-Spiegel. Die Wirkung von Creatin zeigt sich
+        jedoch nicht am Messband, sondern im Trainingsheft.
       </p>
       <p>
-        Vegetarier und Veganer spüren den Unterschied dagegen meist sehr deutlich, weil ihre
-        Ausgangswerte durch den Verzicht auf Fleisch niedrig sind.
-      </p>
-    </section>
-
-    <figure>
-      <img src="bilder/rueckstand-quer.jpg" width="1376" height="768" loading="lazy"
-           alt="Nahaufnahme eines Trinkglases, in dem sich weißes Pulver nicht aufgelöst hat und als sandige Schicht am Boden liegt">
-      <figcaption>Was am Boden liegen bleibt, hat keine Muskelzelle von innen gesehen.</figcaption>
-    </figure>
-
-    <section class="punkt">
-      <span class="nr">04</span>
-      <h2>Ein großer Teil des Pulvers löst sich nie auf</h2>
-      <p>
-        Schau dir dein Glas nach dem Trinken genauer an. Wenn am Boden eine weiße Schicht
-        zurückbleibt oder feine Körnchen am Rand kleben, hast du einen Teil der Dosis gar
-        nicht aufgenommen.
-      </p>
-      <p>
-        Klassisches Monohydrat löst sich in kaltem Wasser schlecht. Es bildet Kristalle, die
-        sich selbst durch langes Rühren kaum vollständig aufspalten lassen. Was im Glas
-        klumpig bleibt, kann auch die Schleimhaut im Magen-Darm-Trakt nur schwer aufnehmen.
-        Dieser ungelöste Rest wandert wirkungslos durch den Körper und geht am Ende
-        ungenutzt wieder raus.
-      </p>
-    </section>
-
-    <section class="punkt">
-      <span class="nr">05</span>
-      <h2>Auf den falschen Wert geschaut</h2>
-      <p>
-        Viele erwarten nach der ersten Woche, dass die Waage plötzlich mehr anzeigt oder der
-        Arm im Spiegel sofort dicker wirkt. Creatin lagert Wasser jedoch direkt in der
-        Muskelzelle ein, nicht im Unterhautfettgewebe. Wer nur auf sein Gewicht schaut,
-        übersieht das Wesentliche.
-      </p>
-      <p>
-        Der echte Fortschritt steht im Trainingsbuch. Wenn du bei Kniebeugen oder
-        Bankdrücken im letzten Satz sonst bei der siebten Wiederholung eingebrochen bist und
-        jetzt sauber eine achte schaffst: genau das ist die Wirkung.
-      </p>
-    </section>
-
-    <section class="punkt">
-      <span class="nr">06</span>
-      <h2>Dem Körper fehlt das Transportmittel</h2>
-      <p>
-        Damit der Wirkstoff aus dem Magen in die Blutbahn und von dort in die Zelle gelangt,
-        braucht der Organismus ausreichend Flüssigkeit. Creatin bindet Wasser. Wer über den
-        Tag verteilt zu wenig trinkt, nimmt dem Transport die Grundlage und bremst den
-        gewünschten Effekt aus.
+        Du bist im letzten Satz Bankdrücken bisher immer bei der siebten Wiederholung
+        eingebrochen, und plötzlich schaffst du die achte ohne fremde Hilfe. Genau dort
+        findet die Veränderung statt. Wer nur auf seine Silhouette schaut, verpasst diesen
+        Moment vollkommen.
       </p>
     </section>
 
     <figure>
       <img src="bilder/logbuch-quer.jpg" width="1376" height="768" loading="lazy"
            alt="Aufgeschlagenes handgeschriebenes Trainingslogbuch mit Spalten aus Gewichten und Wiederholungszahlen auf einer Hantelbank">
-      <figcaption>Eine Wiederholung mehr, dann die nächste. Dort zeigt es sich, oder gar nicht.</figcaption>
+      <figcaption>Eine Wiederholung mehr mit demselben Gewicht zeigt die Wirkung eher als
+        der Zeiger auf der Waage.</figcaption>
     </figure>
 
     <section class="punkt">
-      <span class="nr">07</span>
-      <h2>Wegen Magenproblemen abgebrochen</h2>
+      <span class="nr">04</span>
+      <h2>Deine Speicher waren schon fast voll</h2>
       <p>
-        Ein drückendes Gefühl im Oberbauch, Blähungen oder leichte Krämpfe kurz nach der
-        Einnahme sind der häufigste Grund, warum Trainierende das Experiment beenden. Diese
-        Beschwerden entstehen fast immer durch schwer lösliche Monohydrat-Kristalle.
+        Der Effekt hängt stark davon ab, wie du dich ernährst. Wer täglich große Portionen
+        Rindfleisch, Schweinefleisch oder Lachs auf dem Teller hat, führt seinem Körper
+        bereits über die normale Nahrung reichlich Creatin zu.
       </p>
       <p>
-        Weil sie sich im Glas nicht aufgelöst haben, liegen sie als feste Partikel im Magen
-        und ziehen dort Wasser aus dem umliegenden Gewebe an. Das sorgt für die typischen
-        Verdauungsprobleme. Der Betroffene bricht ab und zieht das Fazit, dass er Creatin
-        nicht verträgt, obwohl nur die Darreichung das Problem war.
+        Deine Muskeln sind dadurch von Natur aus fast vollständig gesättigt. Die Luft nach
+        oben ist minimal, weshalb der zusätzliche Schub schlicht ausbleibt. Wer dagegen
+        wenig oder gar kein Fleisch isst, spürt nach der Sättigung einen deutlichen
+        Unterschied in der Kraftausdauer.
+      </p>
+    </section>
+
+    <section class="punkt">
+      <span class="nr">05</span>
+      <h2>Zu wenig Wasser zum Runterspülen</h2>
+      <p>
+        Ein gehäufter Messlöffel trockenes Pulver in den Mund, ein kleiner Schluck
+        Leitungswasser hinterher und einmal kurz geschluckt. So landet ein zäher Klumpen
+        im Magen. Ohne ausreichend Flüssigkeit kann sich das Pulver im Magenraum nicht
+        verteilen. Wer hier am Wasser spart, macht sich die Einnahme unnötig schwer.
+      </p>
+    </section>
+
+    <figure>
+      <img src="bilder/rueckstand-quer.jpg" width="1376" height="768" loading="lazy"
+           alt="Nahaufnahme eines Trinkglases, in dem sich weißes Pulver nicht aufgelöst hat und als sandige Schicht am Boden liegt">
+      <figcaption>Was nach dem Trinken im Glas zurückbleibt, gelangt nicht in deine
+        Muskeln.</figcaption>
+    </figure>
+
+    <section class="punkt">
+      <span class="nr">06</span>
+      <h2>Das Pulver löst sich nicht</h2>
+      <p>
+        Du rührst das Glas akribisch um, trinkst es auf ex aus und blickst auf den Boden.
+        Dort klebt immer noch eine dicke, weiße Schicht aus feinem Grieß. Dieser Rest
+        wandert beim Spülen direkt in das Waschbecken.
+      </p>
+      <p>
+        Herkömmliches Monohydrat hat eine schlechte Löslichkeit und bildet in kaltem
+        Wasser schwere Ablagerungen. Was als weißer Staub am Glasboden kleben bleibt, hast
+        du schlicht nicht getrunken.
+      </p>
+    </section>
+
+    <section class="punkt">
+      <span class="nr">07</span>
+      <h2>Der Magen macht Ärger</h2>
+      <p>
+        Ungelöste Kristalle, die den Weg durch die Speiseröhre schaffen, stellen den Magen
+        vor eine Aufgabe. Sie lösen sich dort nur langsam auf und ziehen lokal Wasser an.
+      </p>
+      <p>
+        Die Folge ist ein spürbarer Druck im Oberbauch oder ein unangenehmer Blähbauch.
+        Wer jedes Mal mit Magengrummeln auf der Trainingsbank liegt, verliert schnell die
+        Lust daran. Viele hören genau wegen dieser Verträglichkeitsprobleme wieder auf.
       </p>
     </section>
 
     <section class="schluss">
       <h2>Fünf davon liegen in deiner Hand</h2>
       <p>
-        Du kannst dein Einnahmeschema anpassen, jeden Tag an dein Glas denken, genug trinken
-        und die Leistung im Logbuch vergleichen statt auf der Waage. Das ist Disziplin, und
-        die kostet nichts.
+        Die ersten fünf Punkte kannst du selbst abstellen. Du kannst dein Pulver täglich
+        nehmen, genügend Wasser trinken, deine Erwartungen anpassen und das Trainingsheft
+        im Blick behalten. Das kostet nichts außer Disziplin.
       </p>
       <p>
-        Gegen physikalische Eigenschaften hilft Disziplin dagegen wenig. Wenn Kristalle sich
-        im kühlen Wasser nicht auflösen und schwer im Magen liegen, ändert auch langes
-        Rühren nichts an der Aufnahme.
+        Gegen das Löslichkeitsproblem im Glas und das Drücken im Magen hilft Disziplin
+        jedoch nicht. Das liegt schlicht an der Form von herkömmlichem Monohydrat.
       </p>
       <p>
-        Genau dort setzt Creatin HCL von BrustBizeps an. Durch die Bindung an Hydrochlorid
-        erreicht das Pulver <span class="quelle">laut Herstellerangabe</span> eine 59-fach
-        bessere Löslichkeit als herkömmliches Monohydrat. Es löst sich im Glas vollständig
-        auf, kommt ohne Ladephase aus und liefert 1000 mg pro Portion. Ohne Rest am Boden,
-        ohne Druck im Bauch.
+        Hier setzt BrustBizeps Creatin HCL an. Statt Pulver anzurühren, nimmst du Kapseln.
+        Nichts bleibt am Glasboden kleben, kein Grieß knirscht zwischen den Zähnen.
+        <span class="quelle">Laut Herstellerangabe</span> ist Creatin-Hydrochlorid 59-fach
+        besser löslich als klassisches Monohydrat. Es bildet keine ungelösten Klumpen, die
+        im Magen liegen und dort Wasser ziehen. Eine Ladephase fällt weg.
       </p>
-      <a class="cta" href="https://try.brustbizeps.de/creatin-hcl-pro/" id="cta">Creatin HCL ansehen</a>
+      <p>
+        Jede Kapsel enthält 1000 mg reines Creatin-Hydrochlorid. Die Tagesdosis beträgt
+        4 Kapseln, die du entweder vor dem Training oder aufgeteilt morgens und abends
+        nimmst. Eine Dose kostet 35,90 Euro, enthält 140 Kapseln und reicht genau 35 Tage.
+      </p>
+
+      <figure class="dose">
+        <img src="bilder/dose.png" width="700" height="700" loading="lazy"
+             alt="Schwarze Dose BrustBizeps Creatin HCL mit 140 Kapseln">
+        <figcaption>Eine Dose BrustBizeps Creatin HCL enthält 140 Kapseln zu 1000 mg
+          Creatin-Hydrochlorid und ersetzt bei vier Kapseln am Tag das Pulver für
+          35 Tage.</figcaption>
+      </figure>
+
+      <a class="cta" href="https://try.brustbizeps.de/creatin-hcl-pro/" id="cta">Kapseln statt ungelöstem Pulver probieren</a>
       <p class="versand">Versand aus Deutschland</p>
     </section>
 
@@ -311,16 +348,44 @@
 </footer>
 
 <script>
-  // Herkunftsparameter vom Artikel auf die Produktseite durchreichen.
-  // Ohne das bricht die Zuordnung genau an der Stelle ab, an der gekauft wird.
   (function () {
     var cta = document.getElementById('cta');
-    if (!cta || !location.search) return;
-    var ziel = new URL(cta.href);
-    new URLSearchParams(location.search).forEach(function (wert, name) {
-      if (!ziel.searchParams.has(name)) ziel.searchParams.set(name, wert);
+    if (!cta) return;
+
+    // 1. Herkunftsparameter vom Artikel auf die Angebotsseite durchreichen.
+    //    Ohne das bricht die Zuordnung genau an der Stelle ab, an der gekauft
+    //    wird: der gclid steht in der Adresse dieser Seite, nicht der nächsten.
+    if (location.search) {
+      var ziel = new URL(cta.href);
+      new URLSearchParams(location.search).forEach(function (wert, name) {
+        if (!ziel.searchParams.has(name)) ziel.searchParams.set(name, wert);
+      });
+      cta.href = ziel.toString();
+    }
+
+    // 2. Der Klick auf den Knopf ist die Conversion dieser Seite. Ein Kauf
+    //    passiert später und auf einer anderen Domain; hier endet, was diese
+    //    Seite leisten kann, und genau darauf optimiert die Kampagne.
+    //
+    //    Das Ereignis darf die Navigation nie aufhalten. Ist gtag blockiert,
+    //    bleibt der Klick ein gewöhnlicher Link; antwortet Google nicht,
+    //    greift nach 800 ms der Notausgang.
+    var gemeldet = false;
+    cta.addEventListener('click', function (e) {
+      if (gemeldet || typeof gtag !== 'function') return;
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey ||
+          e.shiftKey || e.altKey) return;
+
+      e.preventDefault();
+      gemeldet = true;
+      var weiter = function () { window.location = cta.href; };
+      var notausgang = setTimeout(weiter, 800);
+
+      gtag('event', 'conversion', {
+        send_to: 'AW-11050879575/51EGCLyslNgcENeUvJUp',
+        event_callback: function () { clearTimeout(notausgang); weiter(); }
+      });
     });
-    cta.href = ziel.toString();
   })();
 </script>
 </body>
