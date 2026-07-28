@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { ArrowRight, Box, Zap, Shield, Sparkles } from 'lucide-react';
 
 const SHOP = "brustbizeps.myshopify.com";
@@ -46,7 +46,11 @@ const BUNDLES = [
 export default function ProductSelectorSection() {
     const [selectedBundle, setSelectedBundle] = useState(BUNDLES[1]);
 
-    const handleCheckout = () => {
+    // Die Warenkorb-Adresse steht als echtes href am Element, nicht erst im
+    // Klick-Handler. Nur dann dekoriert der Conversion Linker aus dem GTM den
+    // Link mit _gl und gibt das Cookie an die Shop-Domain weiter; eine
+    // Zuweisung an location.href sieht er nicht.
+    const checkoutUrl = useMemo(() => {
         const url = new URL(`https://${SHOP}/cart/${BASE_VARIANT}:${selectedBundle.qty}`);
         if (selectedBundle.discountCode) {
             url.searchParams.set('discount', selectedBundle.discountCode);
@@ -55,11 +59,13 @@ export default function ProductSelectorSection() {
         // stehen in der Adresse dieser Seite; ab hier ist eine andere Domain
         // zustaendig, und was jetzt nicht mitgeht, ist fuer die Zuordnung des
         // Kaufs verloren.
-        new URLSearchParams(window.location.search).forEach((wert, name) => {
-            if (!url.searchParams.has(name)) url.searchParams.set(name, wert);
-        });
-        window.location.href = url.toString();
-    };
+        if (typeof window !== 'undefined') {
+            new URLSearchParams(window.location.search).forEach((wert, name) => {
+                if (!url.searchParams.has(name)) url.searchParams.set(name, wert);
+            });
+        }
+        return url.toString();
+    }, [selectedBundle]);
 
     return (
         <section id="checkout-section" className="py-24 px-4 bg-brand-sand relative border-t border-brand-text/15">
@@ -136,13 +142,13 @@ export default function ProductSelectorSection() {
                         })}
                     </div>
 
-                    <button
-                        onClick={handleCheckout}
+                    <a
+                        href={checkoutUrl}
                         className="w-full bg-brand-signal text-brand-surface py-5 px-6 font-drama font-extrabold uppercase text-lg hover:bg-brand-text transition-colors flex items-center justify-center gap-2 group relative overflow-hidden"
                     >
                         <span className="relative z-10">In den Warenkorb</span>
                         <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform" />
-                    </button>
+                    </a>
 
                     {/* Trust bar small */}
                     <div className="flex items-center justify-center gap-6 mt-6 text-[10px] font-mono uppercase text-brand-text/40">
