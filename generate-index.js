@@ -61,3 +61,18 @@ if (fs.existsSync(assetsSrc)) {
   fs.cpSync(assetsSrc, path.join(distPath, 'assets'), { recursive: true });
   console.log('Assets copied to dist/assets.');
 }
+
+/* Statische Seiten nach dist/ kopieren.
+ *
+ * Fuer eine Artikelseite braucht es keine Vite-App: ein index.html unter
+ * static/<pfad>/ landet unverandert unter try.brustbizeps.de/<pfad>/.
+ * Netlify liefert vorhandene Dateien aus, bevor die Catch-all-Weiterleitung
+ * greift — der Artikel bleibt also erreichbar.
+ */
+const staticSrc = path.join(__dirname, 'static');
+if (fs.existsSync(staticSrc)) {
+  for (const eintrag of fs.readdirSync(staticSrc)) {
+    fs.cpSync(path.join(staticSrc, eintrag), path.join(distPath, eintrag), { recursive: true });
+    console.log(`Static page copied: /${eintrag}/`);
+  }
+}
