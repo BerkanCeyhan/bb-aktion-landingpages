@@ -6,7 +6,7 @@ const quizConfig = {
   screens: [
     {
       type: 'hook',
-      badge: '🔒 Unverbindlich · Keine E-Mail nötig',
+      badge: '🔒 Unverbindlich · 60-Sekunden-Test',
       hero: 'hero.png',
       title: 'Welche Mystery Box lohnt sich für dich am meisten?',
       sub: '60-Sekunden-Test: Wir zeigen dir die Box mit dem höchsten Warenwert für dich, plus deine persönliche Ersparnis-Rechnung.',
@@ -142,6 +142,16 @@ const quizConfig = {
       type: 'single',
       question: 'Klingt es gut, Premium-Produkte zu testen, die du dir sonst nie bestellt hättest, und dabei noch zu sparen?',
       options: [{ label: 'Ja' }, { label: 'Nein' }],
+    },
+
+    {
+      type: 'email',
+      eyebrow: 'Fast fertig',
+      title: 'Wohin sollen wir deine Box-Empfehlung schicken?',
+      sub: 'Deine persönliche Empfehlung ist fertig. Trag deine E-Mail ein, dann zeigen wir sie dir und schicken sie dir direkt ins Postfach.',
+      placeholder: 'deine@email.de',
+      consent: 'Ja, schickt mir meine Box-Empfehlung sowie passende Tipps und Angebote von BrustBizeps per E-Mail. Abmeldung jederzeit mit einem Klick.',
+      cta: 'Meine Empfehlung anzeigen →',
     },
 
     {
