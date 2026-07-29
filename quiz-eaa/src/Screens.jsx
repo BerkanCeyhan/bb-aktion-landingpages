@@ -19,6 +19,9 @@ export function HookScreen({ screen, onStart }) {
   return (
     <div className="q-screen q-hook">
       {screen.badge && <span className="q-hook-badge">{screen.badge}</span>}
+      {screen.hero && (
+        <div className="q-hook-hero"><img src={`${BASE}${screen.hero}`} alt="" /></div>
+      )}
       <h1 className="q-hook-title">{screen.title}</h1>
       {screen.sub && <p className="q-hook-sub">{screen.sub}</p>}
       <div className="q-foot">
@@ -107,6 +110,9 @@ export function InterstitialScreen({ screen, onNext }) {
         <span className={`q-inter-eyebrow${trust ? ' trust' : ''}`}>{screen.eyebrow}</span>
       )}
       <h2 className="q-inter-title">{screen.title}</h2>
+      {screen.image && (
+        <div className="q-inter-image"><img src={`${BASE}${screen.image}`} alt="" /></div>
+      )}
       <div className="q-inter-body">
         {screen.body.map((b, i) =>
           b.type === 'good' ? (
@@ -221,7 +227,7 @@ function AnimatedCalc({ row }) {
   );
 }
 
-export function ResultScreen({ result, answers, onCta }) {
+export function ResultScreen({ result, answers, onCta, Explosion }) {
   useEffect(() => {
     track('Lead', { content_name: result.quiz }, true);
     saveSubmission(result.quiz, result.type, result.title, answers);
@@ -231,6 +237,7 @@ export function ResultScreen({ result, answers, onCta }) {
       <p className="q-eyebrow q-result-eyebrow">{result.eyebrow}</p>
       <h2 className="q-result-type" style={result.gauge ? { color: result.gauge.tone === 'good' ? 'var(--q-accent)' : result.gauge.tone === 'mid' ? '#E5A11E' : 'var(--q-signal)' } : undefined}>{result.title}</h2>
 
+      {result.explosion && Explosion && <Explosion {...result.explosion} />}
       {result.gauge && <Gauge gauge={result.gauge} />}
       {result.product && (
         <div className="q-productcard">

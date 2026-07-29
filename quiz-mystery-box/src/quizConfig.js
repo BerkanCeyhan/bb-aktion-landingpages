@@ -7,10 +7,11 @@ const quizConfig = {
     {
       type: 'hook',
       badge: '🔒 Unverbindlich · Keine E-Mail nötig',
-      title: 'Welche Box lohnt sich für dich am meisten?',
-      sub: 'Finde in 60 Sekunden heraus, welche Mystery Box dir den höchsten Warenwert bringt. Am Ende siehst du deine persönliche Empfehlung mit Ersparnis-Rechnung.',
-      cta: 'Box finden',
-      trust: '8 Fragen · ca. 60 Sekunden',
+      hero: 'hero.png',
+      title: 'Welche Mystery Box lohnt sich für dich am meisten?',
+      sub: '60-Sekunden-Test: Wir zeigen dir die Box mit dem höchsten Warenwert für dich, plus deine persönliche Ersparnis-Rechnung.',
+      cta: 'Meine Box finden',
+      trust: '10 Fragen · ca. 60 Sekunden',
     },
 
     {
@@ -22,6 +23,19 @@ const quizConfig = {
         { label: 'Abnehmen & Definition', help: 'Kalorien im Blick', img: 'mystery-q1-abnehmen' },
         { label: 'Fitter Lifestyle', help: 'Gesund snacken, gut versorgt sein', img: 'mystery-q1-lifestyle' },
         { label: 'Leistung im Sport', help: 'Energie und Regeneration', img: 'mystery-q1-sport' },
+      ],
+    },
+
+    {
+      id: 'motivation',
+      type: 'single',
+      question: 'Was reizt dich an einer Mystery Box am meisten?',
+      sub: 'Danach richtet sich, was wir dir empfehlen.',
+      options: [
+        { label: 'Der Deal', help: 'Mehr Warenwert, als ich zahle' },
+        { label: 'Die Überraschung', help: 'Ich liebe das Auspacken' },
+        { label: 'Neue Produkte entdecken', help: 'Sachen, die ich sonst nie kaufe' },
+        { label: 'Günstig Vorrat auffüllen', help: 'Meine Basics nachkaufen' },
       ],
     },
 
@@ -67,10 +81,24 @@ const quizConfig = {
     },
 
     {
+      id: 'hemmnis',
+      type: 'single',
+      question: 'Was hält dich am ehesten von einer Mystery Box ab?',
+      sub: 'Ehrlich. Genau das klären wir gleich.',
+      options: [
+        { label: 'Ob die Produkte wirklich zu mir passen', help: 'Ich will nichts, das ich nicht nutze' },
+        { label: 'Dass Sachen dabei sind, die ich nicht mag' },
+        { label: 'Ob sich der Preis am Ende lohnt', help: 'Kein Fehlkauf bitte' },
+        { label: 'Ehrlich? Nichts, klingt gut' },
+      ],
+    },
+
+    {
       type: 'interstitial',
       variant: 'fact',
       eyebrow: 'ℹ️ Kurzer Einschub',
       title: 'So funktioniert die Box wirklich.',
+      image: 'box-value.png',
       body: [
         { text: 'Viele denken bei Mystery Boxen an Restposten und Ladenhüter. Genau das bekommst du hier nicht.' },
         { text: 'Jede Box enthält ausschließlich verifizierte Bestseller aus dem aktuellen Sortiment. Keine abgelaufene Ware, keine beschädigten Artikel.' },
@@ -138,12 +166,11 @@ const quizConfig = {
 
   computeResult(answers) {
     const budget = answers.budget;
-    const praeferenz = answers.praeferenz;
     const warenkorb = answers.warenkorb || [];
     const geschmack = answers.geschmack;
     const experimentier = answers.experimentier;
+    const motivation = answers.motivation;
 
-    // --- Box from budget ---
     const boxes = {
       XL: { name: 'XL-Box', price: '84,90€', priceN: 84.9, items: '19 – 25', wert: 'über 120€', wertN: 120 },
       M: { name: 'M-Box', price: '59,90€', priceN: 59.9, items: '13 – 18', wert: 'über 90€', wertN: 90 },
@@ -154,29 +181,44 @@ const quizConfig = {
     else if (budget === '30 – 60€') key = 'M';
     else key = 'S';
     const box = boxes[key];
-
     const payPct = Math.round((box.priceN / box.wertN) * 100);
 
-    // --- Snack upsell trigger ---
     const wantsSnacks = warenkorb.some((w) => w.includes('Riegel') || w.includes('Zero-Saucen'));
 
-    // --- Mirror copy from budget + geschmack + experimentier ---
     const budgetLabel = budget ? budget.toLowerCase() : 'einen festen Betrag';
     const geschmackLabel = geschmack ? geschmack.toLowerCase() : 'deinen Geschmack';
-    const expMap = {
-      Sehr: 'hohe Experimentierfreude',
-      Offen: 'Offenheit für Neues',
-      Vorsichtig: 'Vorliebe für Bewährtes',
-    };
+    const expMap = { Sehr: 'hohe Experimentierfreude', Offen: 'Offenheit für Neues', Vorsichtig: 'Vorliebe für Bewährtes' };
     const expLabel = expMap[experimentier] || 'deine Vorlieben';
-    const mirror = `Du gibst aktuell ca. ${budgetLabel} pro Monat für Supplements aus. Die ${box.name} kostet dich ${box.price} und liefert dir ${box.items} verifizierte Bestseller mit einem Warenwert von deutlich ${box.wert}. Basierend auf deinen Antworten: ${geschmackLabel}, ${expLabel}. Deine Box wird entsprechend zusammengestellt.`;
+    const motivMap = {
+      'Der Deal': 'Dich reizt vor allem der Deal, und genau da liefert diese Box am meisten.',
+      'Die Überraschung': 'Dich reizt die Überraschung, und beim Auspacken bekommst du genau die.',
+      'Neue Produkte entdecken': 'Du willst Neues entdecken, und die Box bringt dir Sachen, die du sonst nie bestellt hättest.',
+      'Günstig Vorrat auffüllen': 'Du willst günstig Vorrat auffüllen, und die Box senkt deinen Preis pro Produkt spürbar.',
+    };
+    const motivLine = motivMap[motivation] ? ` ${motivMap[motivation]}` : '';
+    const mirror = `Du gibst aktuell ca. ${budgetLabel} pro Monat für Supplements aus. Die ${box.name} kostet dich ${box.price} und liefert dir ${box.items} verifizierte Bestseller mit einem Warenwert von deutlich ${box.wert}. Basierend auf deinen Antworten: ${geschmackLabel}, ${expLabel}.${motivLine}`;
 
     return {
       quiz: 'mystery-box',
       type: key,
       eyebrow: 'Deine Box-Empfehlung:',
       title: box.name,
-      product: { img: `${BASE}produkt.png`, name: `Summer ${box.name}`, tag: `${box.items} verifizierte Bestseller · Warenwert ${box.wert}` },
+      explosion: {
+        box: 'box-open.png',
+        caption: 'Beispiel-Inhalte · jede Box wird individuell gepackt',
+        products: [
+          { img: 'proteinpulver', name: 'Protein' },
+          { img: 'creatin', name: 'Creatin' },
+          { img: 'shaker', name: 'Shaker' },
+          { img: 'proteinbar', name: 'Brownie' },
+          { img: 'chips', name: 'Chips' },
+          { img: 'pudding', name: 'Pudding' },
+          { img: 'waffel', name: 'Waffel' },
+          { img: 'proteinwater', name: 'Water' },
+          { img: 'whey', name: 'Clear Whey' },
+          { img: 'crunchy', name: 'Crunchy' },
+        ],
+      },
       calc: [
         { label: 'Dein Box-Preis', amount: box.price, pct: payPct, kind: 'pay' },
         { label: 'Warenwert in der Box', amount: box.wert, pct: 100, kind: 'get' },

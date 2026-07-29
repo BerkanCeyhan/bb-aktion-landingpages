@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { track } from './tracking.js';
 import { HookScreen, SingleScreen, MultiScreen, InterstitialScreen, LoadingScreen, ResultScreen } from './Screens.jsx';
 
-export default function QuizEngine({ config }) {
+export default function QuizEngine({ config, Explosion }) {
   const { screens } = config;
   const [index, setIndex] = useState(() => {
     const s = Number(new URLSearchParams(window.location.search).get('s'));
@@ -83,7 +83,7 @@ export default function QuizEngine({ config }) {
             case 'loading':
               return <LoadingScreen key={index} screen={screen} onDone={goNext} />;
             case 'result':
-              return <ResultScreen key={index} result={result} answers={answers} onCta={() => track('QuizCTAClick', { quiz: config.id, result: result.type })} />;
+              return <ResultScreen key={index} result={result} answers={answers} Explosion={Explosion} onCta={() => track('QuizCTAClick', { quiz: config.id, result: result.type })} />;
             default:
               return null;
           }
