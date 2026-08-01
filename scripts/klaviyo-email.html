@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="de" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="x-apple-disable-message-reformatting">
+<meta name="color-scheme" content="light">
+<meta name="supported-color-schemes" content="light">
+<title>Deine Box-Empfehlung</title>
+<style>
+  body,table,td,a{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}
+  table,td{mso-table-lspace:0pt;mso-table-rspace:0pt}
+  img{-ms-interpolation-mode:bicubic;border:0;height:auto;line-height:100%;outline:none;text-decoration:none}
+  body{margin:0!important;padding:0!important;width:100%!important}
+  a{color:#D9345F}
+  .wrap{width:100%;background-color:#FBF1DD}
+  .container{width:600px;max-width:600px}
+  @media screen and (max-width:620px){
+    .container{width:100%!important;max-width:100%!important}
+    .px{padding-left:22px!important;padding-right:22px!important}
+    .h1{font-size:34px!important;line-height:36px!important}
+    .stat{display:block!important;width:100%!important;padding:0 0 10px 0!important}
+    .btn a{display:block!important}
+  }
+</style>
+</head>
+<body style="margin:0;padding:0;background-color:#FBF1DD;">
+<div style="display:none;font-size:1px;color:#FBF1DD;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;">
+  {{ person.quiz_result_title|default:"Deine Box" }} passt zu deinen Antworten. Hier ist deine Rechnung.
+</div>
+
+<table role="presentation" class="wrap" cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color:#FBF1DD;">
+<tr><td align="center" style="padding:28px 12px 40px 12px;">
+
+  <table role="presentation" class="container" cellpadding="0" cellspacing="0" border="0" width="600" style="width:600px;max-width:600px;">
+
+    <!-- brand bar -->
+    <tr><td class="px" style="padding:0 32px 22px 32px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px;letter-spacing:2px;font-weight:700;color:#241C15;text-transform:uppercase;">
+      BrustBizeps
+    </td></tr>
+
+    <!-- headline card -->
+    <tr><td style="background-color:#FFFDF7;border-radius:20px;border:1px solid #EADFC9;">
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+
+        <tr><td class="px" style="padding:34px 32px 0 32px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:1.6px;font-weight:700;color:#FF6B2C;text-transform:uppercase;">
+          Deine Box-Empfehlung
+        </td></tr>
+
+        <tr><td class="px h1" style="padding:6px 32px 0 32px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:44px;line-height:46px;font-weight:800;letter-spacing:-1px;color:#241C15;">
+          {{ person.quiz_result_title|default:"Deine Box" }}
+        </td></tr>
+
+        <tr><td class="px" style="padding:18px 32px 0 32px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:16px;line-height:26px;color:#4A3B2C;">
+          {{ person.quiz_result_summary|default:"Deine Antworten zeigen, welche Box dir den höchsten Warenwert bringt." }}
+        </td></tr>
+
+        <!-- CTA -->
+        <tr><td class="px btn" style="padding:26px 32px 6px 32px;">
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+            <tr><td align="center" bgcolor="#FF2E7E" style="border-radius:12px;">
+              <a href="{{ person.quiz_result_url|default:'https://try.brustbizeps.de/mystery-box-summer/' }}"
+                 style="display:inline-block;padding:16px 30px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:17px;font-weight:700;color:#ffffff;text-decoration:none;border-radius:12px;">
+                Meine Box ansehen
+              </a>
+            </td></tr>
+          </table>
+        </td></tr>
+
+        <tr><td class="px" style="padding:10px 32px 34px 32px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px;line-height:20px;color:#8A7963;">
+          Der Warenwert liegt bei jeder Box über dem Kaufpreis. Solange der Vorrat reicht.
+        </td></tr>
+
+      </table>
+    </td></tr>
+
+    <!-- what is inside -->
+    <tr><td class="px" style="padding:34px 32px 0 32px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:20px;font-weight:800;letter-spacing:-0.3px;color:#241C15;">
+      Was dich in der Box erwartet
+    </td></tr>
+    <tr><td class="px" style="padding:12px 32px 0 32px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:15px;line-height:26px;color:#4A3B2C;">
+      Verifizierte Bestseller aus dem aktuellen Sortiment: Proteinpulver, Riegel, Creatin, Zero-Saucen, Snacks und mehr.
+      Keine Restposten, keine abgelaufene Ware. Was drin liegt, bleibt bis zum Öffnen eine Überraschung.
+    </td></tr>
+
+    <!-- trust row -->
+    <tr><td class="px" style="padding:24px 32px 0 32px;">
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+        <tr>
+          <td class="stat" width="33%" align="center" style="padding:14px 8px;background-color:#FFFDF7;border:1px solid #EADFC9;border-radius:14px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
+            <div style="font-size:22px;font-weight:800;color:#FF6B2C;">4,8 / 5</div>
+            <div style="font-size:12px;color:#8A7963;padding-top:3px;">1.247 Bewertungen</div>
+          </td>
+          <td class="stat" width="6" style="font-size:0;line-height:0;">&nbsp;</td>
+          <td class="stat" width="33%" align="center" style="padding:14px 8px;background-color:#FFFDF7;border:1px solid #EADFC9;border-radius:14px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
+            <div style="font-size:22px;font-weight:800;color:#FF6B2C;">40 – 80 %</div>
+            <div style="font-size:12px;color:#8A7963;padding-top:3px;">mehr Warenwert</div>
+          </td>
+          <td class="stat" width="6" style="font-size:0;line-height:0;">&nbsp;</td>
+          <td class="stat" width="33%" align="center" style="padding:14px 8px;background-color:#FFFDF7;border:1px solid #EADFC9;border-radius:14px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
+            <div style="font-size:22px;font-weight:800;color:#FF6B2C;">47.529+</div>
+            <div style="font-size:12px;color:#8A7963;padding-top:3px;">Kunden</div>
+          </td>
+        </tr>
+      </table>
+    </td></tr>
+
+    <!-- footer -->
+    <tr><td class="px" style="padding:34px 32px 0 32px;border-top:1px solid #EADFC9;">
+      <div style="height:20px;line-height:20px;font-size:0;">&nbsp;</div>
+      <div style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:12px;line-height:20px;color:#8A7963;">
+        Du bekommst diese E-Mail, weil du den Box-Test auf try.brustbizeps.de gemacht und der Zusendung zugestimmt hast.
+        <br><br>
+        <a href="{% unsubscribe_link %}" style="color:#8A7963;">Abmelden</a> &nbsp;·&nbsp;
+        <a href="https://brustbizeps.de/policies/privacy-policy" style="color:#8A7963;">Datenschutz</a> &nbsp;·&nbsp;
+        <a href="https://brustbizeps.de/policies/legal-notice" style="color:#8A7963;">Impressum</a>
+        <br><br>
+        {{ organization.name }}, {{ organization.full_address }}
+      </div>
+      <div style="height:26px;line-height:26px;font-size:0;">&nbsp;</div>
+    </td></tr>
+
+  </table>
+</td></tr>
+</table>
+</body>
+</html>

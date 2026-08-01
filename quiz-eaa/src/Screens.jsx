@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { track, saveSubmission } from './tracking.js';
+import { PRIVACY_URL } from './klaviyo.js';
 
 const BASE = import.meta.env.BASE_URL;
 const img = (name) => `${BASE}quiz-img/${name}.png`;
@@ -139,6 +140,62 @@ export function InterstitialScreen({ screen, onNext }) {
   );
 }
 
+/* ---------------- Email gate ---------------- */
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+export function EmailScreen({ screen, onSubmit }) {
+  const [email, setEmail] = useState('');
+  const [consent, setConsent] = useState(false);
+  const [touched, setTouched] = useState(false);
+  const valid = EMAIL_RE.test(email.trim());
+  const canSubmit = valid && consent;
+
+  const submit = (e) => {
+    e.preventDefault();
+    setTouched(true);
+    if (canSubmit) onSubmit(email.trim());
+  };
+
+  return (
+    <div className="q-screen">
+      {screen.eyebrow && <p className="q-eyebrow">{screen.eyebrow}</p>}
+      <h2 className="q-question">{screen.title}</h2>
+      {screen.sub && <p className="q-sub">{screen.sub}</p>}
+
+      <form className="q-email-form" onSubmit={submit} noValidate>
+        <input
+          className={`q-email-input${touched && !valid ? ' err' : ''}`}
+          type="email"
+          inputMode="email"
+          autoComplete="email"
+          autoCapitalize="off"
+          spellCheck="false"
+          placeholder={screen.placeholder || 'deine@email.de'}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          onBlur={() => setTouched(true)}
+          aria-label="E-Mail-Adresse"
+        />
+        {touched && !valid && <p className="q-email-err">Bitte gib eine gültige E-Mail-Adresse ein.</p>}
+
+        <label className="q-consent">
+          <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} />
+          <span>{screen.consent}</span>
+        </label>
+
+        <div className="q-foot">
+          <button type="submit" className="q-cta" disabled={!canSubmit}>{screen.cta || 'Weiter'}</button>
+          <p className="q-email-legal">
+            {screen.legalPre || 'Mit dem Absenden stimmst du der '}
+            <a href={PRIVACY_URL} target="_blank" rel="noopener noreferrer">Datenschutzerklärung</a>
+            {screen.legalPost || ' zu. Du bekommst eine Bestätigungsmail (Double-Opt-in), Abmeldung jederzeit.'}
+          </p>
+        </div>
+      </form>
+    </div>
+  );
+}
+
 /* ---------------- Loading ---------------- */
 export function LoadingScreen({ screen, onDone }) {
   const [pct, setPct] = useState(0);
@@ -237,6 +294,9 @@ export function ResultScreen({ result, answers, onCta, Explosion }) {
       <p className="q-eyebrow q-result-eyebrow">{result.eyebrow}</p>
       <h2 className="q-result-type" style={result.gauge ? { color: result.gauge.tone === 'good' ? 'var(--q-accent)' : result.gauge.tone === 'mid' ? '#E5A11E' : 'var(--q-signal)' } : undefined}>{result.title}</h2>
 
+      {answers?._email && (
+        <div className="q-confirm">📩 Deine Empfehlung ist unterwegs an <b>{answers._email}</b>. Bestätige kurz die Anmeldung in deiner Mail.</div>
+      )}
       {result.explosion && Explosion && <Explosion {...result.explosion} />}
       {result.gauge && <Gauge gauge={result.gauge} />}
       {result.product && (

@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { track } from './tracking.js';
-import { HookScreen, SingleScreen, MultiScreen, InterstitialScreen, LoadingScreen, ResultScreen } from './Screens.jsx';
+import { HookScreen, SingleScreen, MultiScreen, InterstitialScreen, EmailScreen, LoadingScreen, ResultScreen } from './Screens.jsx';
+import { subscribe } from './klaviyo.js';
 
 export default function QuizEngine({ config, Explosion }) {
   const { screens } = config;
@@ -50,6 +51,30 @@ export default function QuizEngine({ config, Explosion }) {
     goNext();
   };
 
+  const handleEmail = (email) => {
+    setAnswers((a) => ({ ...a, _email: email }));
+    track('Subscribe', { quiz: config.id });
+    const p = new URLSearchParams(window.location.search);
+    // All questions are answered by this point, so the result can already be
+    // computed and shipped along — that is what personalises the follow-up mail.
+    const r = config.computeResult(answers, config);
+    subscribe(email, {
+      quiz_source: `quiz-${config.id}`,
+      quiz_result_type: r.type,
+      quiz_result_title: r.title,
+      quiz_result_headline: r.eyebrow,
+      quiz_result_summary: r.mirror,
+      // absolute, so it also works from inside an email
+      quiz_result_url: new URL(r.cta?.href || '/', window.location.origin).href,
+      quiz_answers: answers,
+      utm_source: p.get('utm_source') || '',
+      utm_medium: p.get('utm_medium') || '',
+      utm_campaign: p.get('utm_campaign') || '',
+      fbclid: p.get('fbclid') || '',
+    });
+    goNext();
+  };
+
   const showProgress = screen.type !== 'hook' && screen.type !== 'result';
   const isFirstQuestion = index <= 1;
 
@@ -80,6 +105,8 @@ export default function QuizEngine({ config, Explosion }) {
               return <MultiScreen key={index} screen={screen} value={draft} onChange={setDraft} onNext={handleMultiNext} />;
             case 'interstitial':
               return <InterstitialScreen key={index} screen={screen} onNext={goNext} />;
+            case 'email':
+              return <EmailScreen key={index} screen={screen} onSubmit={handleEmail} />;
             case 'loading':
               return <LoadingScreen key={index} screen={screen} onDone={goNext} />;
             case 'result':

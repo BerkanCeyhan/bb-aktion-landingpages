@@ -224,6 +224,60 @@ body {
   margin-top: 12px;
 }
 
+/* ---------- Result confirmation banner ---------- */
+.q-confirm {
+  background: var(--q-selected-bg);
+  border: 1.5px solid color-mix(in srgb, var(--q-accent) 35%, transparent);
+  border-radius: 14px;
+  padding: 12px 14px;
+  font-size: 0.88rem;
+  line-height: 1.4;
+  color: var(--q-text);
+  margin: 2px 0 18px;
+}
+.q-confirm b { word-break: break-all; }
+
+/* ---------- Email gate ---------- */
+.q-email-form { display: flex; flex-direction: column; flex: 1; }
+.q-email-input {
+  width: 100%;
+  font: inherit;
+  font-size: 1.05rem;
+  padding: 15px 16px;
+  border-radius: 14px;
+  border: 1.5px solid var(--q-line);
+  background: var(--q-surface);
+  color: var(--q-text);
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.q-email-input::placeholder { color: color-mix(in srgb, var(--q-muted) 70%, transparent); }
+.q-email-input:focus {
+  border-color: var(--q-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--q-accent) 18%, transparent);
+}
+.q-email-input.err { border-color: var(--q-signal); }
+.q-email-err { color: var(--q-signal); font-size: 0.82rem; margin: 6px 2px 0; }
+.q-consent {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-top: 16px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: var(--q-muted);
+}
+.q-consent input {
+  margin: 2px 0 0;
+  width: 20px; height: 20px;
+  accent-color: var(--q-accent);
+  flex: 0 0 auto;
+  cursor: pointer;
+}
+.q-email-legal { font-size: 0.76rem; color: var(--q-muted); line-height: 1.4; margin-top: 12px; text-align: center; }
+.q-email-legal a { color: var(--q-accent); text-underline-offset: 2px; }
+
 /* ---------- Hook ---------- */
 .q-hook { text-align: center; justify-content: center; padding-top: 4vh; gap: 4px; }
 .q-hook-badge {
