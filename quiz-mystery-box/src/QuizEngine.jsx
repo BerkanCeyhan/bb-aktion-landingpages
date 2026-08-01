@@ -64,7 +64,12 @@ export default function QuizEngine({ config, Explosion }) {
       quiz_result_title: r.title,
       quiz_result_headline: r.eyebrow,
       quiz_result_summary: r.mirror,
-      quiz_result_url: r.cta?.href || '',
+      quiz_box_image: r.emailImage || '',
+      quiz_box_price: r.emailPrice || '',
+      quiz_box_items: r.emailItems || '',
+      quiz_box_wert: r.emailWert || '',
+      // absolute, so it also works from inside an email
+      quiz_result_url: new URL(r.cta?.href || '/', window.location.origin).href,
       quiz_answers: answers,
       utm_source: p.get('utm_source') || '',
       utm_medium: p.get('utm_medium') || '',

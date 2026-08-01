@@ -196,7 +196,8 @@ const quizConfig = {
     const wantsSnacks = warenkorb.some((w) => w.includes('Riegel') || w.includes('Zero-Saucen'));
 
     const budgetLabel = budget ? budget.toLowerCase() : 'einen festen Betrag';
-    const geschmackLabel = geschmack ? geschmack.toLowerCase() : 'deinen Geschmack';
+    // keep the option's own casing ("Team Süß"), lowercasing it reads sloppy in the mail
+    const geschmackLabel = geschmack || 'dein Geschmack';
     const expMap = { Sehr: 'hohe Experimentierfreude', Offen: 'Offenheit für Neues', Vorsichtig: 'Vorliebe für Bewährtes' };
     const expLabel = expMap[experimentier] || 'deine Vorlieben';
     const motivMap = {
@@ -213,6 +214,11 @@ const quizConfig = {
       type: key,
       eyebrow: 'Deine Box-Empfehlung:',
       title: box.name,
+      // absolute + public, so the follow-up mail can show the recommended box
+      emailImage: `https://try.brustbizeps.de/assets/email/box-${key.toLowerCase()}.jpg`,
+      emailPrice: box.price,
+      emailItems: box.items,
+      emailWert: box.wert,
       explosion: {
         box: 'box-open.png',
         caption: 'Beispiel-Inhalte · jede Box wird individuell gepackt',
