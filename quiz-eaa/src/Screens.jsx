@@ -145,7 +145,11 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export function EmailScreen({ screen, onSubmit }) {
   const [email, setEmail] = useState('');
+  // Zwei getrennte Einwilligungen. Die erste deckt genau die eine Mail ab, die
+  // hier versprochen wird, die zweite alles darueber hinaus. Beide starten leer,
+  // vorangehakt waere nach DSGVO keine Einwilligung.
   const [consent, setConsent] = useState(false);
+  const [newsletter, setNewsletter] = useState(false);
   const [touched, setTouched] = useState(false);
   const valid = EMAIL_RE.test(email.trim());
   const canSubmit = valid && consent;
@@ -153,7 +157,7 @@ export function EmailScreen({ screen, onSubmit }) {
   const submit = (e) => {
     e.preventDefault();
     setTouched(true);
-    if (canSubmit) onSubmit(email.trim());
+    if (canSubmit) onSubmit(email.trim(), { newsletter });
   };
 
   return (
@@ -180,8 +184,21 @@ export function EmailScreen({ screen, onSubmit }) {
 
         <label className="q-consent">
           <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} />
-          <span>{screen.consent}</span>
+          <span>
+            {screen.consent}
+            <b className="q-req"> Pflicht</b>
+          </span>
         </label>
+
+        {screen.newsletter && (
+          <label className="q-consent">
+            <input type="checkbox" checked={newsletter} onChange={(e) => setNewsletter(e.target.checked)} />
+            <span>
+              {screen.newsletter}
+              <span className="q-consent-opt"> Freiwillig</span>
+            </span>
+          </label>
+        )}
 
         <div className="q-foot">
           <button type="submit" className="q-cta" disabled={!canSubmit}>{screen.cta || 'Weiter'}</button>

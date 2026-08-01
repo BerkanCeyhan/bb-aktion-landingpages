@@ -3,6 +3,11 @@ const BASE = import.meta.env.BASE_URL;
 const quizConfig = {
   id: 'mystery-box',
 
+  // Wortlaut der Pflicht-Einwilligung, wird als Nachweis mit ins Profil geschrieben.
+  // Aendert sich der Text oben, muss er hier mitgeaendert werden.
+  consentText:
+    'Ja, schickt mir meine persönliche Box-Empfehlung per E-Mail. Sie enthält eine Produktempfehlung.',
+
   screens: [
     {
       type: 'hook',
@@ -150,7 +155,8 @@ const quizConfig = {
       title: 'Wohin sollen wir deine Box-Empfehlung schicken?',
       sub: 'Deine persönliche Empfehlung ist fertig. Trag deine E-Mail ein, dann zeigen wir sie dir und schicken sie dir direkt ins Postfach.',
       placeholder: 'deine@email.de',
-      consent: 'Ja, schickt mir meine Box-Empfehlung sowie passende Tipps und Angebote von BrustBizeps per E-Mail. Abmeldung jederzeit mit einem Klick.',
+      consent: 'Ja, schickt mir meine persönliche Box-Empfehlung per E-Mail. Sie enthält eine Produktempfehlung.',
+      newsletter: 'Schickt mir außerdem Tipps und Angebote von BrustBizeps. Abmeldung jederzeit mit einem Klick.',
       cta: 'Meine Empfehlung anzeigen →',
     },
 

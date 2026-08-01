@@ -51,7 +51,7 @@ export default function QuizEngine({ config, Explosion }) {
     goNext();
   };
 
-  const handleEmail = (email) => {
+  const handleEmail = (email, opts = {}) => {
     setAnswers((a) => ({ ...a, _email: email }));
     track('Subscribe', { quiz: config.id });
     const p = new URLSearchParams(window.location.search);
@@ -60,6 +60,11 @@ export default function QuizEngine({ config, Explosion }) {
     const r = config.computeResult(answers, config);
     subscribe(email, {
       quiz_source: `quiz-${config.id}`,
+      // Trennt die Pflicht-Einwilligung (eine Ergebnismail) von der freiwilligen
+      // fuer alles weitere. Segment in Klaviyo: quiz_newsletter_optin ist true.
+      quiz_newsletter_optin: opts.newsletter === true,
+      quiz_consent_text: config.consentText || '',
+      quiz_consent_at: new Date().toISOString(),
       quiz_result_type: r.type,
       quiz_result_title: r.title,
       quiz_result_headline: r.eyebrow,

@@ -275,6 +275,9 @@ body {
   flex: 0 0 auto;
   cursor: pointer;
 }
+.q-consent + .q-consent { margin-top: 10px; }
+.q-req { color: var(--q-signal); font-weight: 700; white-space: nowrap; }
+.q-consent-opt { opacity: 0.75; white-space: nowrap; }
 .q-email-legal { font-size: 0.76rem; color: var(--q-muted); line-height: 1.4; margin-top: 12px; text-align: center; }
 .q-email-legal a { color: var(--q-accent); text-underline-offset: 2px; }
 
