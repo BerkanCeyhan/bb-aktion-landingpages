@@ -55,8 +55,17 @@ export default function QuizEngine({ config, Explosion }) {
     setAnswers((a) => ({ ...a, _email: email }));
     track('Subscribe', { quiz: config.id });
     const p = new URLSearchParams(window.location.search);
+    // All questions are answered by this point, so the result can already be
+    // computed and shipped along — that is what personalises the follow-up mail.
+    const r = config.computeResult(answers, config);
     subscribe(email, {
       quiz_source: `quiz-${config.id}`,
+      quiz_result_type: r.type,
+      quiz_result_title: r.title,
+      quiz_result_headline: r.eyebrow,
+      quiz_result_summary: r.mirror,
+      // absolute, so it also works from inside an email
+      quiz_result_url: new URL(r.cta?.href || '/', window.location.origin).href,
       quiz_answers: answers,
       utm_source: p.get('utm_source') || '',
       utm_medium: p.get('utm_medium') || '',

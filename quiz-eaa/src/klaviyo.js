@@ -3,9 +3,10 @@
 // The /client/subscriptions endpoint always triggers double opt-in, so the lead
 // gets a confirmation mail and is only marketing-subscribed after they confirm.
 //
-// Fill these two after the Klaviyo list is created (both are safe to ship):
-export const KLAVIYO_PUBLIC_KEY = ''; // e.g. 'ABC123'  (Settings → API keys → Public)
-export const KLAVIYO_LIST_ID = '';    // e.g. 'XyZ123'  (the "Quiz Funnel Leads" list)
+// Both values are public by design (the site id is the same one the Klaviyo
+// onsite script exposes) and safe to ship in client bundles.
+export const KLAVIYO_PUBLIC_KEY = 'XugDYa'; // site id / company_id
+export const KLAVIYO_LIST_ID = 'TLMGKq';    // "Quiz Funnel Leads" (double opt-in)
 
 export const PRIVACY_URL = 'https://brustbizeps.de/policies/privacy-policy';
 
