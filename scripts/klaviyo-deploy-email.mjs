@@ -90,13 +90,14 @@ async function main() {
   const patched = await api(`https://a.klaviyo.com/api/flow-actions/${action.id}`, 'PATCH', {
     data: { type: 'flow-action', id: action.id, attributes: { definition } },
   });
-  const cloneId = patched.data.attributes.definition.data.message.template_id;
-  console.log(`Flow-Aktion ${action.id} neu verknuepft, frischer Klon: ${cloneId}`);
+  console.log(`Flow-Aktion ${action.id} neu verknuepft.`);
 
-  // 4. gegenpruefen, dass im Flow wirklich das neue HTML haengt
+  // 4. gegenpruefen, dass im Flow wirklich das neue HTML haengt. Die template_id
+  //    aus der PATCH-Antwort hinkt hinterher, verlaesslich ist nur diese Abfrage.
   const msgId = patched.data.attributes.definition.data.message.id;
   const live = await api(`https://a.klaviyo.com/api/flow-messages/${msgId}/template`);
   const liveHtml = live.data?.attributes?.html || '';
+  console.log(`Frischer Klon im Flow: ${live.data?.id} (${live.data?.attributes?.created})`);
   const marker = ['logo-white', 'quiz_box_image', 'FF2E7E'];
   const missing = marker.filter((m) => !liveHtml.includes(m));
   if (missing.length) throw new Error(`Klon unvollstaendig, fehlt: ${missing.join(', ')}`);
