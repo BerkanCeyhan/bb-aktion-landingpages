@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { track } from './tracking.js';
-import { HookScreen, SingleScreen, MultiScreen, InterstitialScreen, EmailScreen, LoadingScreen, ResultScreen } from './Screens.jsx';
 import { subscribe } from './klaviyo.js';
+import { HookScreen, SingleScreen, MultiScreen, InterstitialScreen, EmailScreen, LoadingScreen, ResultScreen } from './Screens.jsx';
 
 export default function QuizEngine({ config, Explosion }) {
   const { screens } = config;
@@ -11,6 +11,7 @@ export default function QuizEngine({ config, Explosion }) {
   });
   const [answers, setAnswers] = useState({});
   const [draft, setDraft] = useState([]); // in-progress multi-select
+  const [submitExtra, setSubmitExtra] = useState(null); // Adresse + Einwilligung fuers Absenden
 
   const screen = screens[index];
 
@@ -52,14 +53,11 @@ export default function QuizEngine({ config, Explosion }) {
   };
 
   const handleEmail = (email, opts = {}) => {
-    setAnswers((a) => ({ ...a, _email: email }));
-    track('Subscribe', { quiz: config.id });
     const p = new URLSearchParams(window.location.search);
-    // All questions are answered by this point, so the result can already be
-    // computed and shipped along — that is what personalises the follow-up mail.
+    // Alle Fragen sind hier beantwortet, das Ergebnis laesst sich also schon
+    // berechnen. Genau das personalisiert spaeter die Nachfassmail.
     const r = config.computeResult(answers, config);
-    subscribe(email, {
-      quiz_source: `quiz-${config.id}`,
+    const klaviyoProps = {
       // Trennt die Pflicht-Einwilligung (eine Ergebnismail) von der freiwilligen
       // fuer alles weitere. Segment in Klaviyo: quiz_newsletter_optin ist true.
       quiz_newsletter_optin: opts.newsletter === true,
@@ -73,14 +71,25 @@ export default function QuizEngine({ config, Explosion }) {
       quiz_box_price: r.emailPrice || '',
       quiz_box_items: r.emailItems || '',
       quiz_box_wert: r.emailWert || '',
-      // absolute, so it also works from inside an email
+      // absolut, damit der Link auch aus dem Postfach heraus funktioniert
       quiz_result_url: new URL(r.cta?.href || '/', window.location.origin).href,
       quiz_answers: answers,
       utm_source: p.get('utm_source') || '',
       utm_medium: p.get('utm_medium') || '',
       utm_campaign: p.get('utm_campaign') || '',
       fbclid: p.get('fbclid') || '',
-    });
+    };
+
+    track('Subscribe', { quiz: config.id });
+    // Zwei Wege absichtlich. Der verlaessliche laeuft im Apps Script, weil
+    // a.klaviyo.com im Browser von Trackerblockern und In-App-Browsern
+    // geschluckt wird. Dieser Aufruf hier ist nur noch Rueckfall fuer den Fall,
+    // dass der Relay ausfaellt. Klaviyo fuehrt beide auf dasselbe Profil
+    // zusammen, doppelt angelegt wird nichts.
+    subscribe(email, klaviyoProps);
+    // Gespeichert wird genau einmal, im Ergebnisscreen.
+    setSubmitExtra({ email, newsletterOptin: opts.newsletter === true, klaviyoProps });
+    setAnswers((a) => ({ ...a, _email: email }));
     goNext();
   };
 
@@ -119,7 +128,7 @@ export default function QuizEngine({ config, Explosion }) {
             case 'loading':
               return <LoadingScreen key={index} screen={screen} onDone={goNext} />;
             case 'result':
-              return <ResultScreen key={index} result={result} answers={answers} Explosion={Explosion} onCta={() => track('QuizCTAClick', { quiz: config.id, result: result.type })} />;
+              return <ResultScreen key={index} result={result} answers={answers} extra={submitExtra} Explosion={Explosion} onCta={() => track('QuizCTAClick', { quiz: config.id, result: result.type })} />;
             default:
               return null;
           }

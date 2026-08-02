@@ -13,18 +13,24 @@ export function track(event, params = {}, standard = false) {
 const SHEETS_URL =
   'https://script.google.com/macros/s/AKfycbySBF477nLecmsQ0SU35HrvVPXyGRgI1qUmjftCQYOrUJbno0e7wk5OyyK5Dy8oYXsu/exec';
 
-export function saveSubmission(quiz, resultType, resultTitle, answers) {
+// `extra` traegt Adresse, Einwilligung und die Klaviyo-Eigenschaften. Die
+// Anmeldung passiert bewusst dort und nicht hier im Browser: a.klaviyo.com wird
+// von Trackerblockern und In-App-Browsern geschluckt, und ein fehlgeschlagenes
+// fetch faellt hier niemandem auf. Siehe sop/e-mail-einsammeln.md §4.
+export function saveSubmission(quiz, resultType, resultTitle, answers, extra = {}) {
   try {
     const p = new URLSearchParams(window.location.search);
     fetch(SHEETS_URL, {
       method: 'POST',
       mode: 'no-cors',
+      keepalive: true,
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify({
         quiz,
         resultType,
         resultTitle,
         answers,
+        ...extra,
         sessionId: (crypto.randomUUID && crypto.randomUUID()) || String(Date.now()),
         meta: {
           utm_source: p.get('utm_source') || '',

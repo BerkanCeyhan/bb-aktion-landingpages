@@ -301,10 +301,10 @@ function AnimatedCalc({ row }) {
   );
 }
 
-export function ResultScreen({ result, answers, onCta, Explosion }) {
+export function ResultScreen({ result, answers, extra, onCta, Explosion }) {
   useEffect(() => {
     track('Lead', { content_name: result.quiz }, true);
-    saveSubmission(result.quiz, result.type, result.title, answers);
+    saveSubmission(result.quiz, result.type, result.title, answers, extra || {});
   }, []);
   return (
     <div className="q-screen q-result">
