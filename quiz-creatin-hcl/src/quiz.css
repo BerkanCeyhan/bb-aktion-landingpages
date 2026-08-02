@@ -235,7 +235,19 @@ body {
   color: var(--q-text);
   margin: 2px 0 18px;
 }
-.q-confirm b { word-break: break-all; }
+.q-confirm p { margin: 0; }
+.q-confirm p + p { margin-top: 8px; }
+.q-confirm b { word-break: break-word; }
+.q-confirm-head {
+  display: block;
+  font-family: var(--q-font-head);
+  font-weight: var(--q-head-weight, 800);
+  font-size: 1.15rem;
+  letter-spacing: var(--q-head-tracking, -0.01em);
+  color: var(--q-signal);
+  margin-bottom: 6px;
+}
+.q-confirm-hint { color: var(--q-muted); font-size: 0.82rem; }
 
 /* ---------- Email gate ---------- */
 .q-email-form { display: flex; flex-direction: column; flex: 1; }

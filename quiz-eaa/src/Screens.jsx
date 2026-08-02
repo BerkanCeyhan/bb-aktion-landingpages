@@ -312,7 +312,19 @@ export function ResultScreen({ result, answers, extra, onCta, Explosion }) {
       <h2 className="q-result-type" style={result.gauge ? { color: result.gauge.tone === 'good' ? 'var(--q-accent)' : result.gauge.tone === 'mid' ? '#E5A11E' : 'var(--q-signal)' } : undefined}>{result.title}</h2>
 
       {answers?._email && (
-        <div className="q-confirm">📩 Deine Empfehlung ist unterwegs an <b>{answers._email}</b>. Bestätige kurz die Anmeldung in deiner Mail.</div>
+        // Ohne den Bestaetigungsklick verlaesst die Mail Klaviyo nie. Der
+        // Schritt bekommt deshalb eigenes Gewicht statt einer Randnotiz:
+        // Absender benennen, Spam-Ordner nennen, ein einziger Auftrag.
+        <div className="q-confirm">
+          <b className="q-confirm-head">Ein Schritt fehlt noch</b>
+          <p>
+            Wir haben dir eine Mail an <b>{answers._email}</b> geschickt. Öffne sie und tippe auf
+            den Bestätigungslink, sonst dürfen wir dir deine Empfehlung nicht zusenden.
+          </p>
+          <p className="q-confirm-hint">
+            Absender ist <b>BrustBizeps</b>. Nichts da? Schau kurz im Spam-Ordner nach.
+          </p>
+        </div>
       )}
       {result.explosion && Explosion && <Explosion {...result.explosion} />}
       {result.gauge && <Gauge gauge={result.gauge} />}
