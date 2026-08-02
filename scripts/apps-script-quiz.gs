@@ -106,6 +106,43 @@ function subscribeToKlaviyo_(quiz, email, payload) {
   }
 }
 
+/**
+ * Im Editor von Hand ausfuehren, um die Berechtigung fuer ausgehende Aufrufe
+ * zu erteilen.
+ *
+ * `doGet` anzustossen genuegt dafuer nicht: die Funktion ruft kein
+ * UrlFetchApp auf, also fragt Google auch nichts nach und die bestehende
+ * Autorisierung wird stillschweigend weiterverwendet. Diese Funktion macht
+ * einen echten ausgehenden Aufruf, deshalb erscheint der Dialog.
+ *
+ * Nach dem Bestaetigen laeuft sie durch und schreibt das Ergebnis ins
+ * Ausfuehrungsprotokoll. Danach die Bereitstellung auf eine neue Version heben.
+ */
+function pruefeVerbindung() {
+  var res = UrlFetchApp.fetch('https://a.klaviyo.com/client/subscriptions?company_id=' + KLAVIYO_PUBLIC_KEY, {
+    method: 'post',
+    contentType: 'application/json',
+    headers: { revision: KLAVIYO_REVISION },
+    payload: JSON.stringify({
+      data: {
+        type: 'subscription',
+        attributes: {
+          custom_source: 'Verbindungstest',
+          profile: { data: { type: 'profile', attributes: {
+            email: 'verbindungstest-' + Date.now() + '@mailinator.com',
+            subscriptions: { email: { marketing: { consent: 'SUBSCRIBED' } } },
+          } } },
+        },
+        relationships: { list: { data: { type: 'list', id: KLAVIYO_LISTS['mystery-box'] } } },
+      },
+    }),
+    muteHttpExceptions: true,
+  });
+  var code = res.getResponseCode();
+  Logger.log('Klaviyo antwortet: ' + code + (code === 202 ? '  (erwartet, alles gut)' : '  ' + res.getContentText().slice(0, 300)));
+  return code;
+}
+
 function doPost(e) {
   var lock = LockService.getScriptLock();
   try {
