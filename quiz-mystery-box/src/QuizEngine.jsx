@@ -5,10 +5,12 @@ import { HookScreen, SingleScreen, MultiScreen, InterstitialScreen, EmailScreen,
 
 export default function QuizEngine({ config, Explosion }) {
   const { screens } = config;
-  const [index, setIndex] = useState(() => {
+  // ?s=N springt zum Screen N. Nur fuer Vorschau und Abnahme gedacht.
+  const [jumped] = useState(() => {
     const s = Number(new URLSearchParams(window.location.search).get('s'));
     return Number.isInteger(s) && s > 0 && s < screens.length ? s : 0;
   });
+  const [index, setIndex] = useState(jumped);
   const [answers, setAnswers] = useState({});
   const [draft, setDraft] = useState([]); // in-progress multi-select
   const [submitExtra, setSubmitExtra] = useState(null); // Adresse + Einwilligung fuers Absenden
@@ -128,7 +130,10 @@ export default function QuizEngine({ config, Explosion }) {
             case 'loading':
               return <LoadingScreen key={index} screen={screen} onDone={goNext} />;
             case 'result':
-              return <ResultScreen key={index} result={result} answers={answers} extra={submitExtra} Explosion={Explosion} onCta={() => track('QuizCTAClick', { quiz: config.id, result: result.type })} />;
+              // Ein Sprung ueber ?s= ist keine Teilnahme: nichts speichern,
+              // kein Lead melden. Sonst landen Vorschauen als leere Zeilen in
+              // der Tabelle und blaehen die Lead-Zahl in Meta auf.
+              return <ResultScreen key={index} result={result} answers={answers} extra={submitExtra} preview={jumped > 0} Explosion={Explosion} onCta={() => track('QuizCTAClick', { quiz: config.id, result: result.type })} />;
             default:
               return null;
           }

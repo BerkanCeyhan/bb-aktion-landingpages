@@ -301,8 +301,9 @@ function AnimatedCalc({ row }) {
   );
 }
 
-export function ResultScreen({ result, answers, extra, onCta, Explosion }) {
+export function ResultScreen({ result, answers, extra, preview, onCta, Explosion }) {
   useEffect(() => {
+    if (preview) return; // Vorschau ueber ?s=, keine echte Teilnahme
     track('Lead', { content_name: result.quiz }, true);
     saveSubmission(result.quiz, result.type, result.title, answers, extra || {});
   }, []);
