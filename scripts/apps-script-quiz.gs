@@ -40,6 +40,19 @@ var COLUMNS = [
   'klaviyo_status',  // 202 = angenommen, sonst Fehlertext
 ];
 
+// Tab "<quiz>-steps": ein Ping je erreichtem Screen, damit der Abbruch je Frage
+// sichtbar wird. Das Lead-Blatt kennt nur Abschluesse und kann das nicht zeigen.
+var STEP_COLUMNS = [
+  'timestamp',
+  'quiz',
+  'session_id',  // dieselbe ID wie in der spaeteren Abschlusszeile
+  'step_index',  // Position im screens-Array
+  'step_id',     // z.B. "budget"; leer bei hook/interstitial/email/loading
+  'step_type',   // hook | single | multi | interstitial | email | loading | result
+  'utm_campaign',
+  'utm_content', // Ad-ID, damit sich der Abbruch je Anzeige aufschluesseln laesst
+];
+
 /**
  * Klaviyo-Anmeldung serverseitig.
  *
@@ -150,6 +163,12 @@ function doPost(e) {
 
     var payload = parseBody_(e);
     var quiz = String(payload.quiz || 'unknown').trim().toLowerCase();
+
+    // Schritt-Ping. Eigener Tab, eigene Spalten, kein Klaviyo. Muss vor dem
+    // Submission-Zweig stehen, sonst landet jeder Schritt als leere Lead-Zeile
+    // im Hauptblatt und die Lead-Zahl ist Schrott.
+    if (payload.kind === 'step') return appendStep_(quiz, payload);
+
     var sheet = getOrCreateSheet_(quiz);
 
     var answers = payload.answers || {};
@@ -204,6 +223,39 @@ function parseBody_(e) {
     }
     return {};
   }
+}
+
+// Ein Ping je erreichtem Screen. Append-only, absichtlich schmal: der Tab
+// waechst rund zwoelfmal so schnell wie das Lead-Blatt, also nur das Noetige.
+// Auswertung: je session_id den hoechsten step_index nehmen, das ist die
+// Abbruchstelle. Bei Bedarf aeltere Zeilen abschneiden, sie sind reine Zaehlung.
+function appendStep_(quiz, payload) {
+  var meta = payload.meta || {};
+  var sheet = getOrCreateStepSheet_(quiz);
+  sheet.appendRow([
+    new Date().toISOString(),
+    quiz,
+    payload.sessionId || '',
+    Number(payload.stepIndex),
+    payload.stepId || '',
+    payload.stepType || '',
+    meta.utm_campaign || '',
+    meta.utm_content || '',
+  ]);
+  return json_({ ok: true, kind: 'step', row: sheet.getLastRow() });
+}
+
+function getOrCreateStepSheet_(quiz) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var name = (quiz || 'unknown') + '-steps';
+  var sheet = ss.getSheetByName(name);
+  if (!sheet) {
+    sheet = ss.insertSheet(name);
+    sheet.appendRow(STEP_COLUMNS);
+    sheet.setFrozenRows(1);
+    sheet.getRange(1, 1, 1, STEP_COLUMNS.length).setFontWeight('bold');
+  }
+  return sheet;
 }
 
 function getOrCreateSheet_(quiz) {

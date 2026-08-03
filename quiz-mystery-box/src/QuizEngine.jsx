@@ -1,5 +1,5 @@
-import { useMemo, useState } from 'react';
-import { track } from './tracking.js';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { track, sendStep } from './tracking.js';
 import { subscribe } from './klaviyo.js';
 import { HookScreen, SingleScreen, MultiScreen, InterstitialScreen, EmailScreen, LoadingScreen, ResultScreen } from './Screens.jsx';
 
@@ -32,6 +32,18 @@ export default function QuizEngine({ config, Explosion }) {
     const answeredBefore = screens.slice(0, index).filter((s) => s.type === 'single' || s.type === 'multi').length;
     return Math.round((answeredBefore / totalQuestions) * 100);
   }, [index, screens, totalQuestions]);
+
+  // Jeder erreichte Screen wird genau einmal gemeldet. "Einmal" ist wichtig:
+  // Zurueckblaettern darf den Trichter nicht auffuellen, sonst sieht jede Frage
+  // besser aus, als sie ist. Ein Vorschausprung ueber ?s= zaehlt gar nicht.
+  const reported = useRef(new Set());
+  useEffect(() => {
+    if (jumped > 0) return;
+    if (reported.current.has(index)) return;
+    reported.current.add(index);
+    track('QuizStep', { quiz: config.id, step: index, id: screen.id || screen.type });
+    sendStep(config.id, index, screen.id, screen.type);
+  }, [index, jumped, config.id, screen]);
 
   const goNext = () => setIndex((i) => Math.min(screens.length - 1, i + 1));
   const goBack = () => {
