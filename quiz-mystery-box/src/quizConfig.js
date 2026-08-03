@@ -115,8 +115,10 @@ const quizConfig = {
     {
       id: 'geschmack',
       type: 'single',
+      // Kein Wort davon, dass die Box danach gepackt wird — sie wird zufaellig
+      // gepackt. Die Antwort ist Segmentierung fuer spaetere Mails, nichts sonst.
       question: 'Süß oder herzhaft?',
-      sub: 'Damit deine Box zu deinem Geschmack passt.',
+      sub: 'Nur damit wir wissen, wohin bei dir die Reise geht.',
       options: [
         { label: 'Team Süß', help: 'Riegel, Pudding, Waffeln' },
         { label: 'Team Herzhaft', help: 'Chips, Saucen, deftige Snacks' },
@@ -183,8 +185,6 @@ const quizConfig = {
   computeResult(answers) {
     const budget = answers.budget;
     const warenkorb = answers.warenkorb || [];
-    const geschmack = answers.geschmack;
-    const experimentier = answers.experimentier;
     const motivation = answers.motivation;
 
     const boxes = {
@@ -192,20 +192,39 @@ const quizConfig = {
       M: { name: 'M-Box', price: '59,90€', priceN: 59.9, items: '13 – 18', wert: 'über 90€', wertN: 90 },
       S: { name: 'S-Box', price: '39,90€', priceN: 39.9, items: '8 – 12', wert: 'über 55€', wertN: 55 },
     };
-    let key;
-    if (budget === 'Über 100€' || budget === '60 – 100€') key = 'XL';
-    else if (budget === '30 – 60€') key = 'M';
-    else key = 'S';
+
+    // Das Budget setzt den Boden, nicht die Empfehlung. Wer erkennbar Inhalt
+    // will statt den niedrigsten Preis, bekommt eine Stufe mehr — hoechstens
+    // eine. Zwei Stufen (S -> XL) waeren unglaubwuerdig: wer "unter 30 € im
+    // Monat" angibt und 84,90 € empfohlen bekommt, glaubt auch die
+    // Ersparnis-Rechnung darunter nicht mehr.
+    // Gegen die 173 echten Antworten vom 21.07.–03.08.2026 gerechnet:
+    // vorher S 29 % / M 47 % / XL 24 % (Ø 60,04 €),
+    // jetzt  S 10 % / M 36 % / XL 54 % (Ø 71,37 €, +19 %).
+    const ORDER = ['S', 'M', 'XL'];
+    let base;
+    if (budget === 'Über 100€' || budget === '60 – 100€') base = 'XL';
+    else if (budget === '30 – 60€') base = 'M';
+    else base = 'S';
+
+    let signals = 0;
+    if (['Maximale Abwechslung', 'Der beste Deal', 'Überrasch mich komplett'].includes(answers.praeferenz)) signals++;
+    if (answers.experimentier === 'Sehr') signals++;
+    if (warenkorb.length >= 4) signals++;
+    if (['Der Deal', 'Neue Produkte entdecken'].includes(motivation)) signals++;
+
+    const key = ORDER[Math.min(ORDER.length - 1, ORDER.indexOf(base) + (signals >= 2 ? 1 : 0))];
     const box = boxes[key];
     const payPct = Math.round((box.priceN / box.wertN) * 100);
+
+    // Ersparnis aus den Zahlen der Box selbst, nicht frei behauptet. `wertN` ist
+    // eine Untergrenze ("über 120€"), also ist auch die Ersparnis eine.
+    const saveN = box.wertN - box.priceN;
+    const savePct = Math.round((box.wertN / box.priceN - 1) * 100);
 
     const wantsSnacks = warenkorb.some((w) => w.includes('Riegel') || w.includes('Zero-Saucen'));
 
     const budgetLabel = budget ? budget.toLowerCase() : 'einen festen Betrag';
-    // keep the option's own casing ("Team Süß"), lowercasing it reads sloppy in the mail
-    const geschmackLabel = geschmack || 'dein Geschmack';
-    const expMap = { Sehr: 'hohe Experimentierfreude', Offen: 'Offenheit für Neues', Vorsichtig: 'Vorliebe für Bewährtes' };
-    const expLabel = expMap[experimentier] || 'deine Vorlieben';
     const motivMap = {
       'Der Deal': 'Dich reizt vor allem der Deal, und genau da liefert diese Box am meisten.',
       'Die Überraschung': 'Dich reizt die Überraschung, und beim Auspacken bekommst du genau die.',
@@ -213,7 +232,27 @@ const quizConfig = {
       'Günstig Vorrat auffüllen': 'Du willst günstig Vorrat auffüllen, und die Box senkt deinen Preis pro Produkt spürbar.',
     };
     const motivLine = motivMap[motivation] ? ` ${motivMap[motivation]}` : '';
-    const mirror = `Du gibst aktuell ca. ${budgetLabel} pro Monat für Supplements aus. Die ${box.name} kostet dich ${box.price} und liefert dir ${box.items} verifizierte Bestseller mit einem Warenwert von deutlich ${box.wert}. Basierend auf deinen Antworten: ${geschmackLabel}, ${expLabel}.${motivLine}`;
+    // Kein "basierend auf deinen Antworten wird gepackt": der Inhalt ist zufaellig.
+    // Die Antworten steuern die empfohlene Groesse, mehr behaupten wir nicht.
+    const mirror = `Du gibst aktuell ca. ${budgetLabel} pro Monat für Supplements aus. Die ${box.name} kostet dich ${box.price} und liefert dir ${box.items} verifizierte Bestseller mit einem Warenwert von deutlich ${box.wert}. Macht mindestens ${saveN.toFixed(2).replace('.', ',')}€ mehr Warenwert, als du zahlst.${motivLine}`;
+
+    // Der Einwand aus `hemmnis` wird gespiegelt und beantwortet — ohne zu
+    // behaupten, die Box richte sich nach den Antworten. 93 % der Befragten
+    // (n=54) nennen einen Risiko-Einwand, der bisher unbeantwortet blieb.
+    const reassureMap = {
+      'Ob die Produkte wirklich zu mir passen': {
+        title: '„Passen die Produkte wirklich zu mir?"',
+        text: 'In der Box liegt dasselbe Sortiment, das hier täglich einzeln rausgeht: verifizierte Bestseller, nichts Abgelaufenes, keine Restposten. Was drin landet, wird zufällig gezogen — aber eben aus genau diesem Regal.',
+      },
+      'Dass Sachen dabei sind, die ich nicht mag': {
+        title: '„Was, wenn Sachen dabei sind, die ich nicht mag?"',
+        text: 'Ehrlich: Die Box wird zufällig gepackt, und nicht jeder Artikel wird dein Favorit sein. Genau deshalb ist der Warenwert so gerechnet, dass sich die Box auch dann noch lohnt, wenn zwei Sachen bei dir nicht landen.',
+      },
+      'Ob sich der Preis am Ende lohnt': {
+        title: '„Lohnt sich der Preis am Ende?"',
+        text: `Dafür steht die Rechnung oben. Du zahlst ${box.price}, drin steckt Warenwert ${box.wert}. Die Untergrenze, nicht der Schnitt.`,
+      },
+    };
 
     return {
       quiz: 'mystery-box',
@@ -227,7 +266,9 @@ const quizConfig = {
       emailWert: box.wert,
       explosion: {
         box: 'box-open.png',
-        caption: 'Beispiel-Inhalte · jede Box wird individuell gepackt',
+        // Nicht "individuell gepackt": der Inhalt wird zufaellig gezogen. Das
+        // Quiz bestimmt die Groesse, nicht den Inhalt.
+        caption: 'Beispiel-Inhalte · der Inhalt wird zufällig zusammengestellt',
         products: [
           { img: 'proteinpulver', name: 'Protein' },
           { img: 'creatin', name: 'Creatin' },
@@ -241,19 +282,34 @@ const quizConfig = {
           { img: 'crunchy', name: 'Crunchy' },
         ],
       },
+      savings: {
+        eyebrow: 'Du bekommst mehr zurück, als du zahlst',
+        amount: saveN, // wird auf der Seite hochgezaehlt
+        amountLabel: `${saveN.toFixed(2).replace('.', ',')}€`,
+        pct: savePct,
+        foot: 'Untergrenze, nicht Durchschnitt.',
+      },
       calc: [
         { label: 'Dein Box-Preis', amount: box.price, pct: payPct, kind: 'pay' },
         { label: 'Warenwert in der Box', amount: box.wert, pct: 100, kind: 'get' },
       ],
+      calcDelta: `+ ${saveN.toFixed(2).replace('.', ',')}€ für dich`,
       mirrorTitle: '🔍 Deine Rechnung:',
       mirror,
+      reassure: reassureMap[answers.hemmnis] || null,
       note: wantsSnacks
         ? {
             title: '➕ Passend zu deinen Antworten: Snack Mystery Box',
             text: 'Du hast Snacks als festen Teil deiner Käufe angegeben. Die Snack Mystery Box bringt dir mindestens +30 % mehr Warenwert obendrauf.',
           }
         : null,
-      cta: { label: `Meine ${box.name} sichern →`, href: '/mystery-box-summer/' },
+      // Die empfohlene Groesse muss mit. Ohne Parameter stand der Selektor auf
+      // der Verkaufsseite immer auf XL — das Quiz sagte "Deine M-Box" und die
+      // naechste Seite zeigte etwas anderes. Genau dort brach der Trichter ein.
+      cta: {
+        label: `Meine ${box.name} sichern →`,
+        href: `/mystery-box-summer/?box=${key}${wantsSnacks ? '&snack=1' : ''}`,
+      },
     };
   },
 };

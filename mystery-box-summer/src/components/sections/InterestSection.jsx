@@ -49,8 +49,11 @@ export function InterestSection() {
         },
         {
             icon: <RefreshCw size={40} className="text-brand-volt mb-4" />,
-            title: "Perfekt auf dich abgestimmt.",
-            desc: "Hochwertige, verifizierte Bestseller aus unserem Sortiment. Die perfekte Mischung aus Full-Size Produkten, Snacks und Tools für deinen Muskelaufbau."
+            // Der Inhalt wird zufaellig gezogen, also darf hier nichts von
+            // "auf dich abgestimmt" stehen. Das Versprechen ist die Herkunft
+            // der Ware, nicht eine Anpassung an die Person.
+            title: "Bestseller statt Restposten.",
+            desc: "Hochwertige, verifizierte Bestseller aus unserem laufenden Sortiment. Eine Mischung aus Full-Size Produkten, Snacks und Tools — zufällig zusammengestellt, nie abgelaufen."
         }
     ];
 

@@ -7,9 +7,40 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
+// Das Quiz schickt seine Empfehlung als ?box=S|M|XL (und ?snack=1) mit. Ohne das
+// stand hier immer XL vorausgewählt — das Quiz sagte "Deine M-Box", die nächste
+// Seite zeigte etwas anderes, und der Besucher musste die Empfehlung von Hand
+// nachbauen. Unbekannter oder fehlender Wert fällt auf das alte Verhalten zurück.
+const QUIZ_BOX_TO_VARIANT = {
+    XL: "XL-Box (19-25 Artikel)",
+    M: "M-Box (13-18 Artikel)",
+    S: "S-Box (8-12 Artikel)",
+    XS: "XS-Box (5-8 Artikel)",
+};
+
+function variantFromQuery() {
+    try {
+        const key = String(new URLSearchParams(window.location.search).get('box') || '').toUpperCase();
+        const variant = QUIZ_BOX_TO_VARIANT[key];
+        if (variant && variant in VARIANTS) return variant;
+    } catch {
+        /* kein window / kaputte URL — Standard nehmen */
+    }
+    return null;
+}
+
+function snackFromQuery() {
+    try {
+        return new URLSearchParams(window.location.search).get('snack') === '1';
+    } catch {
+        return false;
+    }
+}
+
 export function ProductSelectorSection() {
-    const [selectedVariant, setSelectedVariant] = useState(Object.keys(VARIANTS)[0]); // Default XL Box
-    const [includeSnackBox, setIncludeSnackBox] = useState(false);
+    const [fromQuiz] = useState(() => variantFromQuery() !== null);
+    const [selectedVariant, setSelectedVariant] = useState(() => variantFromQuery() || Object.keys(VARIANTS)[0]);
+    const [includeSnackBox, setIncludeSnackBox] = useState(snackFromQuery);
     const [snackSize, setSnackSize] = useState(Object.keys(SNACK_BOX_VARIANTS)[0]); // Default S Box Snacks
     const [qty, setQty] = useState(1);
 
@@ -118,6 +149,16 @@ export function ProductSelectorSection() {
                     <div className="w-full lg:w-1/2 flex flex-col gap-8">
 
                         <div>
+                            {fromQuiz && (
+                                /* Sichtbar bestaetigen, dass die Empfehlung uebernommen wurde. Sonst
+                                   wirkt die Vorauswahl wie Zufall und der Besucher prueft alles neu. */
+                                <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-brand-volt/40 bg-brand-volt/10 px-4 py-1.5">
+                                    <Check size={16} className="text-brand-volt" />
+                                    <span className="font-sans text-sm text-dark-text">
+                                        Aus deinem Quiz übernommen: <b>{selectedVariant.split(' ')[0]}</b>
+                                    </span>
+                                </div>
+                            )}
                             <h2 className="text-4xl md:text-5xl font-heading text-dark-text mb-2">WÄHLE DEINE BOX</h2>
                             <p className="text-dark-muted font-sans">Je größer die Box, desto mehr Full-Size Produkte und höher die Ersparnis.</p>
                         </div>

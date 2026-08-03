@@ -442,6 +442,56 @@ body {
 .q-productcard .q-pc-body b { display: block; }
 .q-productcard .q-pc-body span { color: var(--q-muted); font-size: 0.88rem; }
 
+/* ---------- Ersparnis ---------- */
+/* Die eine Zahl, um die es geht. Bewusst groesser als der Boxname darueber:
+   der Name ist die Antwort, die Ersparnis ist der Grund. */
+.q-save {
+  text-align: center;
+  margin: 6px 0 18px;
+  padding: 20px 16px 16px;
+  border-radius: 20px;
+  background: linear-gradient(160deg,
+    color-mix(in srgb, var(--q-accent) 14%, var(--q-surface)),
+    var(--q-surface));
+  border: 1.5px solid color-mix(in srgb, var(--q-accent) 32%, transparent);
+}
+.q-save-eyebrow {
+  margin: 0 0 6px;
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+  color: var(--q-muted);
+}
+.q-save-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 2px;
+  font-family: var(--q-font-head);
+  font-weight: 800;
+  letter-spacing: var(--q-head-tracking);
+  color: var(--q-accent);
+  line-height: 1;
+}
+.q-save-num { font-size: clamp(2.9rem, 14vw, 4rem); font-variant-numeric: tabular-nums; }
+.q-save-plus { font-size: clamp(1.6rem, 7vw, 2.1rem); }
+.q-save-cur { font-size: clamp(1.8rem, 8vw, 2.4rem); }
+.q-save-badge {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 5px 13px;
+  border-radius: 999px;
+  background: var(--q-accent);
+  color: #fff;
+  font-family: var(--q-font-head);
+  font-weight: 800;
+  font-size: 0.95rem;
+}
+.q-save-foot { margin: 9px 0 0; font-size: 0.78rem; color: var(--q-muted); }
+
+@media (prefers-reduced-motion: reduce) {
+  .q-save-num { transition: none; }
+}
+
 .q-calc { margin: 4px 0 20px; display: flex; flex-direction: column; gap: 10px; }
 .q-calc-row { display: flex; flex-direction: column; gap: 5px; }
 .q-calc-row .lab { display: flex; justify-content: space-between; font-size: 0.9rem; }
@@ -450,6 +500,34 @@ body {
 .q-calc-bar > div { height: 100%; border-radius: 8px; width: 0; transition: width 1.1s cubic-bezier(0.22,1,0.36,1); }
 .q-calc-bar.pay > div { background: color-mix(in srgb, var(--q-text) 35%, transparent); }
 .q-calc-bar.get > div { background: var(--q-accent); }
+/* Beziffert den Abstand zwischen den beiden Balken. Ein Rahmen las sich hier
+   wie ein zweites Feld — ein gefuellter Chip ordnet sich der Zahl oben unter. */
+.q-calc-delta {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 4px;
+}
+.q-calc-delta span {
+  padding: 4px 11px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--q-accent) 14%, transparent);
+  font-family: var(--q-font-head);
+  font-weight: 800;
+  font-size: 0.88rem;
+  color: var(--q-accent);
+}
+
+/* ---------- Einwand spiegeln ---------- */
+.q-reassure {
+  background: var(--q-surface);
+  border: 1.5px solid var(--q-line);
+  border-left: 4px solid var(--q-accent);
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 18px;
+}
+.q-reassure b { display: block; margin-bottom: 5px; font-family: var(--q-font-head); }
+.q-reassure p { margin: 0; font-size: 0.92rem; line-height: 1.55; color: var(--q-muted); }
 
 /* ---------- Hook hero illustration ---------- */
 .q-hook-hero {

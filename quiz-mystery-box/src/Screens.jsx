@@ -290,6 +290,37 @@ function Gauge({ gauge }) {
   );
 }
 
+// Die Ersparnis ist das Argument, nicht der Preis. Sie steht deshalb als
+// eigene Zahl ueber der Rechnung und zaehlt hoch, statt einfach dazustehen.
+function SavingsHero({ s }) {
+  const [val, setVal] = useState(0);
+  useEffect(() => {
+    const start = performance.now();
+    const dur = 900;
+    let raf;
+    const tick = (t) => {
+      const p = Math.min(1, (t - start) / dur);
+      // ease-out, damit die Zahl am Ende ausrollt statt hart zu stoppen
+      setVal(s.amount * (1 - Math.pow(1 - p, 3)));
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [s.amount]);
+  return (
+    <div className="q-save">
+      <p className="q-save-eyebrow">{s.eyebrow}</p>
+      <div className="q-save-row">
+        <span className="q-save-plus">+</span>
+        <span className="q-save-num">{val.toFixed(2).replace('.', ',')}</span>
+        <span className="q-save-cur">€</span>
+      </div>
+      <div className="q-save-badge">+{s.pct} % Warenwert</div>
+      {s.foot && <p className="q-save-foot">{s.foot}</p>}
+    </div>
+  );
+}
+
 function AnimatedCalc({ row }) {
   const [w, setW] = useState(0);
   useEffect(() => { const t = setTimeout(() => setW(row.pct), 150); return () => clearTimeout(t); }, [row.pct]);
@@ -335,13 +366,25 @@ export function ResultScreen({ result, answers, extra, preview, onCta, Explosion
           <div className="q-pc-body"><b>{result.product.name}</b><span>{result.product.tag}</span></div>
         </div>
       )}
-      {result.calc && <div className="q-calc">{result.calc.map((r, i) => <AnimatedCalc key={i} row={r} />)}</div>}
+      {result.savings && <SavingsHero s={result.savings} />}
+      {result.calc && (
+        <div className="q-calc">
+          {result.calc.map((r, i) => <AnimatedCalc key={i} row={r} />)}
+          {result.calcDelta && <div className="q-calc-delta"><span>{result.calcDelta}</span></div>}
+        </div>
+      )}
       {result.metrics && <div className="q-metrics">{result.metrics.map((m, i) => <AnimatedMetric key={i} m={m} />)}</div>}
 
       {result.mirror && (
         <div className="q-mirror">
           <h3>{result.mirrorTitle || '🔍 Was das bedeutet:'}</h3>
           <p>{result.mirror}</p>
+        </div>
+      )}
+      {result.reassure && (
+        <div className="q-reassure">
+          <b>{result.reassure.title}</b>
+          <p>{result.reassure.text}</p>
         </div>
       )}
       {result.note && (
