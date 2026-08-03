@@ -46,6 +46,12 @@ const JOBS = [
     `${SUMMER} 3:4 vertical minimalist. The exact closed mystery box from the attached reference image centered on a cream background, tied with a bold pink-magenta ribbon. A single large, clean, glowing orange question mark "?" floats above the box. Soft studio light, curious playful mood. Only the question mark — no other text, no letters, no numbers.`],
   ['quiz-mystery-box', 'produkt.png', 'mystery-3-sparen',
     `${SUMMER} 3:4 vertical top-down flat-lay on a cream surface. A neat, appetizing arrangement of many fitness snacks and supplements — protein bars, a whey scoop, a zero-sauce bottle, vitamin jars, a shaker — grouped beside the exact mystery box from the attached reference image. Warm orange and pink-magenta accents, organized and abundant, lifestyle editorial. No text, no letters, no numbers.`],
+  // Winkel "Abnehmen & Definition". 57 % der 171 Quiz-Antworten vom
+  // 21.07.–03.08.2026 nennen dieses Ziel, bei Ad1 sogar 62 % — und kein
+  // einziges Motiv sprach es an. Warenkorb derselben Leute: 61 % Riegel und
+  // Snacks, 45 % Zero-Saucen. Genau das liegt hier im Bild.
+  ['quiz-mystery-box', 'produkt.png', 'mystery-5-definition',
+    `${SUMMER} 3:4 vertical vibrant product photo on a warm cream background. The exact mystery box from the attached reference image, open and overflowing with a colourful abundance of lean-diet fitness food: many zero-calorie sauce bottles, stacks of protein bars in bright wrappers, protein pudding cups, bags of protein chips, protein water bottles and a shaker, packed full and spilling generously out of the box onto the surface around it in a large abundant arrangement. Light and fresh rather than heavy. A measuring tape lies casually curled in the foreground as a subtle definition cue. Orange and pink-magenta studio lighting, festive, high energy, clearly premium and abundant. No text, no letters, no numbers.`],
   ['quiz-mystery-box', 'produkt.png', 'mystery-4-quizui',
     `${SUMMER} 3:4 vertical. A hand holds a smartphone showing a clean minimal quiz-result screen with a friendly box-recommendation card in orange and pink-magenta with a lime-green accent. Cream background. In soft focus behind the phone stands the exact mystery box from the attached reference image. Modern playful app UI. Keep any on-screen text minimal and in German.`],
 ];
