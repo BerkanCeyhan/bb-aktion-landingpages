@@ -120,6 +120,19 @@ Landing: `https://try.brustbizeps.de/quiz-mystery-box/`
 - H1: **Welche Box passt zu deinem Ziel?**
 - H2: **Deine Box-Empfehlung in 60 Sek.**
 
+**Ad 6 · Definition** — Bild `mystery-5-definition.png` · *nachgereicht 03.08.2026*
+> In der Definitionsphase wird es schnell eintönig. Reis, Hähnchen, Wasser, und das über Wochen.
+> Genau dafür sind Zero-Saucen, Protein-Riegel, Pudding und Chips da. In einer Box kosten sie dich deutlich weniger als einzeln: Der Warenwert liegt 40 bis 80 % über deinem Kaufpreis.
+> 60-Sekunden-Test: Welche Box holt für dich am meisten raus?
+- H1: **Snacks für die Definitionsphase**
+- H2: **Deine Box in 60 Sekunden**
+
+*Grundlage:* 57 % der 171 Quiz-Antworten vom 21.07.–03.08.2026 nennen als Ziel
+„Abnehmen & Definition" (bei Ad 1 sogar 62 %), Muskelaufbau nur 33 %. Warenkorb
+derselben Leute: 61 % Riegel und Snacks, 45 % Zero-Saucen. Keines der vier
+Motive sprach diesen Winkel an. Bewusst keine Abnehm-Wirkungsaussage — die Box
+ist ein Sortiment, kein Abnehmmittel (HWG/UWG).
+
 ---
 
 ## Bild-Archetypen (Diversität)
