@@ -26,10 +26,16 @@ const LIST_ID = 'TLMGKq';           // Quiz Funnel Leads, Double-Opt-in
 const FROM_EMAIL = 'shop@brustbizeps.de';
 const FROM_LABEL = 'BrustBizeps';
 
-// Muss ein echter, in Shopify angelegter Code sein. Solange der Platzhalter
-// steht, weigert sich das Skript, Mail 2 zu schreiben: eine Rabattmail ohne
-// gueltigen Code ist schlimmer als keine Rabattmail.
-const DISCOUNT_CODE = '__RABATTCODE__';
+// Muss ein echter, in Shopify angelegter Code sein. Fehlt er, weigert sich das
+// Skript, Mail 2 zu schreiben: eine Rabattmail ohne gueltigen Code ist
+// schlimmer als keine Rabattmail.
+//
+// Bewusst NICHT im Repo: bb-aktion-landingpages ist oeffentlich. Ein Code im
+// Klartext waere fuer jeden auffindbar und einloesbar, und die Aktion damit
+// nicht mehr auf die Empfaenger der Strecke begrenzt.
+//
+//   DISCOUNT_CODE=XXXXX node scripts/klaviyo-deploy-nachfass.mjs --flow
+const DISCOUNT_CODE = (process.env.DISCOUNT_CODE || '').trim();
 
 const args = process.argv.slice(2);
 const WITH_FLOW = args.includes('--flow');
@@ -76,15 +82,16 @@ async function upsertTemplate(name, htmlBody, textBody) {
   const q = `https://a.klaviyo.com/api/templates/?filter=${encodeURIComponent(`equals(name,"${name}")`)}`;
   const found = await api(q);
   const existing = found?.data?.[0];
-  const attributes = { name, editor_type: 'CODE', html: htmlBody, text: textBody };
+  const attributes = { name, html: htmlBody, text: textBody };
   if (existing) {
+    // editor_type darf nur beim Anlegen mit. Im PATCH lehnt die API es ab.
     await api(`https://a.klaviyo.com/api/templates/${existing.id}/`, 'PATCH',
       { data: { type: 'template', id: existing.id, attributes } });
     console.log(`  Template "${name}" aktualisiert: ${existing.id}`);
     return existing.id;
   }
   const created = await api('https://a.klaviyo.com/api/templates/', 'POST',
-    { data: { type: 'template', attributes } });
+    { data: { type: 'template', attributes: { ...attributes, editor_type: 'CODE' } } });
   console.log(`  Template "${name}" angelegt: ${created.data.id}`);
   return created.data.id;
 }
@@ -147,9 +154,9 @@ async function main() {
   const t1 = await upsertTemplate('Quiz Nachfass 1 – Box wartet', html('klaviyo-nachfass-1.html'), TEXT_1);
 
   let t2 = null;
-  if (DISCOUNT_CODE === '__RABATTCODE__') {
-    console.log('  Template 2 UEBERSPRUNGEN: DISCOUNT_CODE steht noch auf dem Platzhalter.');
-    console.log('  Echten Shopify-Code oben im Skript eintragen, dann erneut laufen lassen.');
+  if (!DISCOUNT_CODE) {
+    console.log('  Template 2 UEBERSPRUNGEN: kein DISCOUNT_CODE in der Umgebung.');
+    console.log('  Aufruf: DISCOUNT_CODE=XXXXX node scripts/klaviyo-deploy-nachfass.mjs --flow');
   } else {
     t2 = await upsertTemplate('Quiz Nachfass 2 – 10 % XL und M', html('klaviyo-nachfass-2.html'), TEXT_2);
   }
@@ -171,7 +178,9 @@ async function main() {
       condition_groups: [{
         conditions: [{
           type: 'profile-property',
-          property: 'quiz_newsletter_optin',
+          // Eigene Eigenschaften brauchen genau diese Klammerform, ein blosser
+          // Name wird mit 400 abgelehnt.
+          property: "properties['quiz_newsletter_optin']",
           filter: { type: 'boolean', operator: 'equals', value: true },
         }],
       }],
