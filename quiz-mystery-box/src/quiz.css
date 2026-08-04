@@ -518,15 +518,22 @@ body {
 }
 
 /* ---------- Einwand spiegeln ---------- */
+/* Kein farbiger Seitenstreifen: die zitierte Frage traegt den Block schon,
+   ein Balken daneben waere Dekoration ohne Aussage. */
 .q-reassure {
-  background: var(--q-surface);
-  border: 1.5px solid var(--q-line);
-  border-left: 4px solid var(--q-accent);
+  background: color-mix(in srgb, var(--q-accent) 7%, var(--q-surface));
+  border: 1.5px solid color-mix(in srgb, var(--q-accent) 22%, transparent);
   border-radius: 14px;
-  padding: 14px 16px;
+  padding: 16px 18px;
   margin-bottom: 18px;
 }
-.q-reassure b { display: block; margin-bottom: 5px; font-family: var(--q-font-head); }
+.q-reassure b {
+  display: block;
+  margin-bottom: 6px;
+  font-family: var(--q-font-head);
+  font-size: 1.02rem;
+  color: var(--q-text);
+}
 .q-reassure p { margin: 0; font-size: 0.92rem; line-height: 1.55; color: var(--q-muted); }
 
 /* ---------- Hook hero illustration ---------- */
