@@ -23,6 +23,7 @@ import path from 'node:path';
 
 const REVISION = '2026-07-15';
 const LIST_ID = 'TLMGKq';           // Quiz Funnel Leads, Double-Opt-in
+const PLACED_ORDER_METRIC = 'YuqYbe'; // "Placed Order", Shopify-Integration
 const FROM_EMAIL = 'shop@brustbizeps.de';
 const FROM_LABEL = 'BrustBizeps';
 
@@ -219,19 +220,51 @@ async function main() {
     return;
   }
 
+  // Die Definition eines bestehenden Flows laesst sich per API nicht aendern
+  // (PATCH kann nur den Status). Ein Entwurf mit demselben Namen wird deshalb
+  // vorher entfernt, sonst sammeln sich Karteileichen. Ein LIVE-Flow wird nie
+  // angefasst: dort haengt Sendehistorie dran.
+  const existingFlows = await api(`https://a.klaviyo.com/api/flows/?filter=${encodeURIComponent(`equals(name,"${FLOW_NAME}")`)}`);
+  const prior = existingFlows?.data?.[0];
+  if (prior) {
+    if (prior.attributes.status !== 'draft') {
+      throw new Error(`Flow ${prior.id} steht auf "${prior.attributes.status}", nicht auf draft. Wird nicht angefasst. Erst von Hand in Klaviyo pausieren oder umbenennen.`);
+    }
+    await api(`https://a.klaviyo.com/api/flows/${prior.id}/`, 'DELETE');
+    console.log(`\nAlten Entwurf ${prior.id} entfernt.`);
+  }
+
   const definition = {
     triggers: [{ type: 'list', id: LIST_ID }],
     // Nur wer der Werbung zugestimmt hat. Die Pflichteinwilligung fuer die
     // Ergebnismail reicht hier ausdruecklich nicht.
+    // Beide Bedingungen in EINER Gruppe, damit sie mit UND verknuepft sind.
+    // Der Flow-Filter wird vor jeder Aktion neu ausgewertet, nicht nur beim
+    // Eintritt: wer nach Mail 1 kauft, bekommt Mail 2 nicht mehr.
     profile_filter: {
       condition_groups: [{
-        conditions: [{
-          type: 'profile-property',
-          // Eigene Eigenschaften brauchen genau diese Klammerform, ein blosser
-          // Name wird mit 400 abgelehnt.
-          property: "properties['quiz_newsletter_optin']",
-          filter: { type: 'boolean', operator: 'equals', value: true },
-        }],
+        conditions: [
+          {
+            type: 'profile-property',
+            // Eigene Eigenschaften brauchen genau diese Klammerform, ein blosser
+            // Name wird mit 400 abgelehnt.
+            property: "properties['quiz_newsletter_optin']",
+            filter: { type: 'boolean', operator: 'equals', value: true },
+          },
+          {
+            // Wer seit dem Eintritt in die Strecke gekauft hat, bekommt sie
+            // nicht weiter. "flow-start" statt "alltime" bewusst: ein Kunde,
+            // der vor Monaten bestellt hat und jetzt das Quiz macht, ohne zu
+            // kaufen, soll angeschrieben werden. Genau dieselbe Form nutzt der
+            // bestehende Flow "Abgebrochener Warenkorb" im selben Konto.
+            type: 'profile-metric',
+            metric_id: PLACED_ORDER_METRIC,
+            measurement: 'count',
+            measurement_filter: { type: 'numeric', operator: 'equals', value: 0 },
+            timeframe_filter: { type: 'date', operator: 'flow-start' },
+            metric_filters: null,
+          },
+        ],
       }],
     },
     actions: [
