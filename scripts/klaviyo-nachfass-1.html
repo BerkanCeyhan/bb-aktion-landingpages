@@ -76,9 +76,12 @@
     <tr><td class="px btn" bgcolor="#FBF1DD" align="center" style="background-color:#FBF1DD;padding:32px 40px 0 40px;">
       <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
         <tr><td align="center" bgcolor="#FF2E7E" style="background-color:#FF2E7E;border-radius:14px;box-shadow:0 6px 0 #C81E5F;">
-          <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="{{ person.quiz_result_url|default:'https://try.brustbizeps.de/mystery-box-summer/' }}" style="height:60px;v-text-anchor:middle;width:480px;" arcsize="24%" stroke="f" fillcolor="#FF2E7E"><w:anchorlock/><center style="color:#ffffff;font-family:Helvetica,Arial,sans-serif;font-size:19px;font-weight:bold;">Meine Box ansehen</center></v:roundrect><![endif]-->
+          <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://brustbizeps.de/products/mystery-box-supplements?variant=50524248998152" style="height:60px;v-text-anchor:middle;width:480px;" arcsize="24%" stroke="f" fillcolor="#FF2E7E"><w:anchorlock/><center style="color:#ffffff;font-family:Helvetica,Arial,sans-serif;font-size:19px;font-weight:bold;">Meine Box ansehen</center></v:roundrect><![endif]-->
           <!--[if !mso]><!-- -->
-          <a href="{{ person.quiz_result_url|default:'https://try.brustbizeps.de/mystery-box-summer/' }}"
+          <!-- Direkt auf die Produktseite im Shop, nicht auf die Funnel-Seite.
+               ?variant= waehlt die im Test empfohlene Groesse vor, damit der
+               Uebergang dieselbe Empfehlung traegt wie die Mail. -->
+          <a href="https://brustbizeps.de/products/mystery-box-supplements?variant={% if person.quiz_result_type == 'S' %}50524248932616{% elif person.quiz_result_type == 'M' %}50524248965384{% else %}50524248998152{% endif %}"
              style="display:block;padding:20px 28px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:19px;line-height:22px;font-weight:800;letter-spacing:-0.2px;color:#ffffff;text-decoration:none;border-radius:14px;">
             Meine {{ person.quiz_result_title|default:"Box" }} ansehen
           </a>

@@ -39,6 +39,12 @@ const DISCOUNT_CODE = (process.env.DISCOUNT_CODE || '').trim();
 
 const args = process.argv.slice(2);
 const WITH_FLOW = args.includes('--flow');
+// Nach jeder Textaenderung noetig: der Flow haengt an Klonen, die beim Anlegen
+// entstanden sind. Ein PATCH auf das Original wirkt nicht rueckwirkend, siehe
+// sop/e-mail-einsammeln.md §5. --relink verknuepft die Aktionen neu, dann
+// klont Klaviyo vom aktuellen Stand.
+const RELINK = args.includes('--relink');
+const FLOW_NAME = 'Quiz Funnel – Nachfass (Marketing-Opt-in)';
 
 function readKey() {
   if (process.env.KLAVIYO_PRIVATE_KEY) return process.env.KLAVIYO_PRIVATE_KEY.trim();
@@ -102,7 +108,7 @@ Du zahlst {{ person.quiz_box_price|default:"84,90EUR" }} und bekommst
 {{ person.quiz_box_items|default:"19-25" }} verifizierte Bestseller mit einem
 Warenwert von {{ person.quiz_box_wert|default:"ueber 120EUR" }}.
 
-Zur Box: {{ person.quiz_result_url|default:'https://try.brustbizeps.de/mystery-box-summer/' }}
+Zur Box: https://brustbizeps.de/products/mystery-box-supplements
 
 Die Box wird zufaellig gepackt, und nicht jeder Artikel wird dein Favorit.
 Genau deshalb ist der Warenwert so gerechnet, dass sie sich auch dann lohnt.
@@ -115,12 +121,13 @@ Wir wollen, dass du dich selbst ueberzeugst. Deshalb bekommst du 10 % auf die
 XL und die M Box.
 
 Dein Code: ${DISCOUNT_CODE}
-An der Kasse eingeben. Gilt fuer die XL Box und die M Box.
+Gilt fuer die XL Box und die M Box.
 
 XL Box: 84,90EUR statt dessen 76,41EUR, Warenwert ueber 120EUR
 M Box:  59,90EUR statt dessen 53,91EUR, Warenwert ueber 90EUR
 
-Zur Box: https://try.brustbizeps.de/mystery-box-summer/
+Zur Box mit eingeloestem Code:
+https://brustbizeps.de/discount/${DISCOUNT_CODE}?redirect=%2Fproducts%2Fmystery-box-supplements
 
 Abmelden: {% unsubscribe_link %}`;
 
@@ -149,6 +156,42 @@ function message(name, subject, preview, templateId, utmCampaign) {
   };
 }
 
+// Die Sende-Aktionen des Flows wieder an die gepflegten Originale haengen.
+// Reihenfolge zaehlt: die erste Sende-Aktion im Flow ist Mail 1.
+async function relink(templateIds) {
+  const flows = await api(`https://a.klaviyo.com/api/flows/?filter=${encodeURIComponent(`equals(name,"${FLOW_NAME}")`)}`);
+  const flow = flows?.data?.[0];
+  if (!flow) throw new Error(`Kein Flow namens "${FLOW_NAME}". Erst mit --flow anlegen.`);
+  console.log(`\nFlow ${flow.id} (${flow.attributes.status}):`);
+
+  const actions = await api(`https://a.klaviyo.com/api/flows/${flow.id}/flow-actions/`);
+  const sends = actions.data.filter((a) => a.attributes.definition.type === 'send-email');
+  if (sends.length !== templateIds.length) {
+    throw new Error(`Flow hat ${sends.length} Sende-Aktionen, erwartet ${templateIds.length}.`);
+  }
+
+  for (let i = 0; i < sends.length; i++) {
+    const full = await api(`https://a.klaviyo.com/api/flow-actions/${sends[i].id}`);
+    const definition = full.data.attributes.definition;
+    definition.data.message.template_id = templateIds[i];
+    const patched = await api(`https://a.klaviyo.com/api/flow-actions/${sends[i].id}`, 'PATCH', {
+      data: { type: 'flow-action', id: sends[i].id, attributes: { definition } },
+    });
+    // Nur diese Abfrage ist verlaesslich; die template_id aus der PATCH-Antwort
+    // hinkt hinterher.
+    const msgId = patched.data.attributes.definition.data.message.id;
+    const live = await api(`https://a.klaviyo.com/api/flow-messages/${msgId}/template`);
+    const liveHtml = live.data?.attributes?.html || '';
+    const marker = i === 0
+      ? ['explosion.png', '/products/mystery-box-supplements']
+      : ['explosion.png', '/discount/', DISCOUNT_CODE];
+    const missing = marker.filter((m) => !liveHtml.includes(m));
+    if (missing.length) throw new Error(`Klon von Mail ${i + 1} unvollstaendig, fehlt: ${missing.join(', ')}`);
+    console.log(`  Mail ${i + 1}: frischer Klon ${live.data.id}, Gegenprobe ok (${liveHtml.length} Zeichen).`);
+  }
+  console.log(`  Status unveraendert: ${flow.attributes.status}.`);
+}
+
 async function main() {
   console.log('Templates:');
   const t1 = await upsertTemplate('Quiz Nachfass 1 – Box wartet', html('klaviyo-nachfass-1.html'), TEXT_1);
@@ -159,6 +202,12 @@ async function main() {
     console.log('  Aufruf: DISCOUNT_CODE=XXXXX node scripts/klaviyo-deploy-nachfass.mjs --flow');
   } else {
     t2 = await upsertTemplate('Quiz Nachfass 2 – 10 % XL und M', html('klaviyo-nachfass-2.html'), TEXT_2);
+  }
+
+  if (RELINK) {
+    if (!t2) throw new Error('--relink braucht beide Templates, also auch DISCOUNT_CODE.');
+    await relink([t1, t2]);
+    return;
   }
 
   if (!WITH_FLOW) {

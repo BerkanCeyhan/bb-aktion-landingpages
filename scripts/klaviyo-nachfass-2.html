@@ -64,7 +64,7 @@
           __RABATTCODE__
         </td></tr>
         <tr><td align="center" style="padding:0 24px 26px 24px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px;line-height:20px;color:#B5A88F;">
-          An der Kasse eingeben. Gilt für die XL Box und die M Box.
+          Der Button unten löst ihn automatisch ein. Gilt für die XL Box und die M Box.
         </td></tr>
       </table>
     </td></tr>
@@ -104,9 +104,15 @@
     <tr><td class="px btn" bgcolor="#FBF1DD" align="center" style="background-color:#FBF1DD;padding:32px 40px 0 40px;">
       <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
         <tr><td align="center" bgcolor="#FF2E7E" style="background-color:#FF2E7E;border-radius:14px;box-shadow:0 6px 0 #C81E5F;">
-          <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://try.brustbizeps.de/mystery-box-summer/?box=XL" style="height:60px;v-text-anchor:middle;width:480px;" arcsize="24%" stroke="f" fillcolor="#FF2E7E"><w:anchorlock/><center style="color:#ffffff;font-family:Helvetica,Arial,sans-serif;font-size:19px;font-weight:bold;">Zur Box mit 10 %</center></v:roundrect><![endif]-->
+          <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://brustbizeps.de/discount/__RABATTCODE__?redirect=%2Fproducts%2Fmystery-box-supplements%3Fvariant%3D50524248998152" style="height:60px;v-text-anchor:middle;width:480px;" arcsize="24%" stroke="f" fillcolor="#FF2E7E"><w:anchorlock/><center style="color:#ffffff;font-family:Helvetica,Arial,sans-serif;font-size:19px;font-weight:bold;">Zur Box mit 10 %</center></v:roundrect><![endif]-->
           <!--[if !mso]><!-- -->
-          <a href="https://try.brustbizeps.de/mystery-box-summer/?box={% if person.quiz_result_type == 'M' %}M{% else %}XL{% endif %}"
+          <!-- Der Shopify-Rabattpfad legt den Code in die Sitzung und leitet
+               danach auf die Produktseite weiter. Der Code steht trotzdem noch
+               sichtbar in der Mail: wer ihn spaeter braucht, findet ihn dort,
+               und wer den Link nicht anklickt, kann ihn von Hand eintippen.
+               Die Aktion gilt nur fuer XL und M, deshalb landet auch die
+               S-Empfehlung hier auf XL. -->
+          <a href="https://brustbizeps.de/discount/__RABATTCODE__?redirect=%2Fproducts%2Fmystery-box-supplements%3Fvariant%3D{% if person.quiz_result_type == 'M' %}50524248965384{% else %}50524248998152{% endif %}"
              style="display:block;padding:20px 28px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:19px;line-height:22px;font-weight:800;letter-spacing:-0.2px;color:#ffffff;text-decoration:none;border-radius:14px;">
             Zur Box mit 10 %
           </a>
