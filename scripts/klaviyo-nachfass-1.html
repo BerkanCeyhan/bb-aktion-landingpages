@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="de" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="x-apple-disable-message-reformatting">
+<meta name="color-scheme" content="light only">
+<meta name="supported-color-schemes" content="light only">
+<!--[if mso]><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml><![endif]-->
+<title>Deine Mystery Box wartet auf dich</title>
+<style>
+  body,table,td,a{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}
+  table,td{mso-table-lspace:0;mso-table-rspace:0}
+  img{-ms-interpolation-mode:bicubic;border:0;height:auto;line-height:100%;outline:none;text-decoration:none;display:block}
+  body{margin:0!important;padding:0!important;width:100%!important;background-color:#FBF1DD}
+  a{color:#D12A6B}
+  :root{color-scheme:light only;supported-color-schemes:light only}
+  @media screen and (max-width:620px){
+    .container{width:100%!important;max-width:100%!important}
+    .px{padding-left:22px!important;padding-right:22px!important}
+    .h1{font-size:38px!important;line-height:40px!important}
+    .btn a{display:block!important}
+  }
+</style>
+</head>
+<body style="margin:0;padding:0;background-color:#FBF1DD;">
+<div style="display:none;font-size:1px;color:#FBF1DD;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;">
+  {{ person.quiz_result_title|default:"Deine Box" }}, {{ person.quiz_box_items|default:"19 – 25" }} Bestseller, Warenwert {{ person.quiz_box_wert|default:"über 120€" }}.
+  &#8203;&#847;&zwnj;&nbsp;&#8203;&#847;&zwnj;&nbsp;&#8203;&#847;&zwnj;&nbsp;&#8203;&#847;&zwnj;&nbsp;
+</div>
+
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background-color:#FBF1DD;">
+<tr><td align="center" style="padding:0;">
+
+  <table role="presentation" class="container" cellpadding="0" cellspacing="0" border="0" width="600" style="width:600px;max-width:600px;">
+
+    <!-- masthead -->
+    <tr><td bgcolor="#241C15" align="center" style="background-color:#241C15;padding:22px 24px;">
+      <img src="https://try.brustbizeps.de/assets/email/logo-white.png" width="150" alt="BrustBizeps" style="width:150px;max-width:150px;height:auto;margin:0 auto;">
+    </td></tr>
+
+    <!-- kicker + headline. Kein Ausrufezeichen, kein Countdown: die Marke redet
+         Klartext, und die Mail hat keinen echten Zeitdruck zu verkaufen. -->
+    <tr><td class="px" bgcolor="#FBF1DD" style="background-color:#FBF1DD;padding:40px 40px 0 40px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:12px;letter-spacing:2px;font-weight:700;color:#FF6B2C;text-transform:uppercase;">
+      Dein Box-Test von gestern
+    </td></tr>
+    <tr><td class="px h1" bgcolor="#FBF1DD" style="background-color:#FBF1DD;padding:10px 40px 0 40px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:46px;line-height:48px;font-weight:800;letter-spacing:-1.4px;color:#241C15;">
+      Deine {{ person.quiz_result_title|default:"Mystery Box" }} wartet auf dich.
+    </td></tr>
+
+    <!-- Explosionsansicht: dieselbe Bildmarke wie auf der Ergebnisseite. Sie ist
+         der Wiedererkennungsanker, deshalb steht sie vor jedem Argument. -->
+    <tr><td bgcolor="#FBF1DD" align="center" style="background-color:#FBF1DD;padding:16px 20px 0 20px;">
+      <img src="https://try.brustbizeps.de/assets/email/explosion.png"
+           width="520" alt="Beispielinhalte einer BrustBizeps Mystery Box"
+           style="width:100%;max-width:520px;height:auto;margin:0 auto;">
+    </td></tr>
+    <tr><td class="px" bgcolor="#FBF1DD" align="center" style="background-color:#FBF1DD;padding:2px 40px 0 40px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:12px;line-height:18px;color:#8A7963;">
+      Beispielinhalte. Der Inhalt wird zufällig zusammengestellt.
+    </td></tr>
+
+    <!-- Die Rechnung als ein typografischer Satz statt als Kachelzeile. Die
+         Ergebnismail hat die Tabelle schon gezeigt, eine Wiederholung waere
+         Fuellmaterial. Ersparnis je Box aus dem Ergebnistyp abgeleitet, weil
+         sie nicht als eigene Profileigenschaft vorliegt. -->
+    <tr><td class="px" bgcolor="#FBF1DD" style="background-color:#FBF1DD;padding:30px 40px 0 40px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:19px;line-height:31px;color:#241C15;">
+      Du zahlst <b>{{ person.quiz_box_price|default:"84,90€" }}</b> und bekommst
+      {{ person.quiz_box_items|default:"19 – 25" }} verifizierte Bestseller mit einem Warenwert von
+      <b style="color:#FF6B2C;">{{ person.quiz_box_wert|default:"über 120€" }}</b>.
+      Macht mindestens
+      <b style="color:#FF6B2C;">{% if person.quiz_result_type == 'S' %}15,10€{% elif person.quiz_result_type == 'M' %}30,10€{% else %}35,10€{% endif %}</b>,
+      die bei dir bleiben.
+    </td></tr>
+
+    <!-- CTA -->
+    <tr><td class="px btn" bgcolor="#FBF1DD" align="center" style="background-color:#FBF1DD;padding:32px 40px 0 40px;">
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+        <tr><td align="center" bgcolor="#FF2E7E" style="background-color:#FF2E7E;border-radius:14px;box-shadow:0 6px 0 #C81E5F;">
+          <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="{{ person.quiz_result_url|default:'https://try.brustbizeps.de/mystery-box-summer/' }}" style="height:60px;v-text-anchor:middle;width:480px;" arcsize="24%" stroke="f" fillcolor="#FF2E7E"><w:anchorlock/><center style="color:#ffffff;font-family:Helvetica,Arial,sans-serif;font-size:19px;font-weight:bold;">Meine Box ansehen</center></v:roundrect><![endif]-->
+          <!--[if !mso]><!-- -->
+          <a href="{{ person.quiz_result_url|default:'https://try.brustbizeps.de/mystery-box-summer/' }}"
+             style="display:block;padding:20px 28px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:19px;line-height:22px;font-weight:800;letter-spacing:-0.2px;color:#ffffff;text-decoration:none;border-radius:14px;">
+            Meine {{ person.quiz_result_title|default:"Box" }} ansehen
+          </a>
+          <!--<![endif]-->
+        </td></tr>
+      </table>
+    </td></tr>
+    <tr><td class="px" bgcolor="#FBF1DD" align="center" style="background-color:#FBF1DD;padding:12px 40px 0 40px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px;line-height:20px;color:#8A7963;">
+      Deine Größe ist auf der Seite schon ausgewählt.
+    </td></tr>
+
+    <!-- Der meistgenannte Einwand aus dem Test, offen beantwortet. 33 % nennen
+         genau diesen Punkt; ihn zu umgehen waere die schlechtere Wahl. -->
+    <tr><td class="px" bgcolor="#FBF1DD" style="background-color:#FBF1DD;padding:40px 40px 0 40px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:21px;line-height:28px;font-weight:800;letter-spacing:-0.4px;color:#241C15;">
+      „Und wenn Sachen dabei sind, die ich nicht mag?“
+    </td></tr>
+    <tr><td class="px" bgcolor="#FBF1DD" style="background-color:#FBF1DD;padding:12px 40px 0 40px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:16px;line-height:27px;color:#4A3B2C;">
+      Ehrliche Antwort: Die Box wird zufällig gepackt, und nicht jeder Artikel wird dein Favorit.
+      Genau deshalb ist der Warenwert so gerechnet, dass sich die Box auch dann noch lohnt,
+      wenn zwei Sachen bei dir nicht landen. Gezogen wird ausschließlich aus dem laufenden
+      Sortiment: keine Restposten, nichts Abgelaufenes.
+    </td></tr>
+
+    <tr><td bgcolor="#FBF1DD" style="background-color:#FBF1DD;font-size:0;line-height:0;height:40px;">&nbsp;</td></tr>
+
+    <!-- footer -->
+    <tr><td class="px" bgcolor="#FBF1DD" style="background-color:#FBF1DD;padding:0 40px 40px 40px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:12px;line-height:20px;color:#8A7963;">
+      <div style="border-top:1px solid #E7DAC0;padding-top:20px;">
+        Du bekommst diese E-Mail, weil du den Box-Test auf try.brustbizeps.de gemacht und
+        zugestimmt hast, Tipps und Angebote von BrustBizeps zu erhalten.
+        <br><br>
+        <a href="{% unsubscribe_link %}" style="color:#8A7963;">Abmelden</a> &nbsp;·&nbsp;
+        <a href="https://brustbizeps.de/policies/privacy-policy" style="color:#8A7963;">Datenschutz</a> &nbsp;·&nbsp;
+        <a href="https://brustbizeps.de/policies/legal-notice" style="color:#8A7963;">Impressum</a>
+        <br><br>
+        {{ organization.name }}, {{ organization.full_address }}
+      </div>
+    </td></tr>
+
+  </table>
+</td></tr>
+</table>
+</body>
+</html>
