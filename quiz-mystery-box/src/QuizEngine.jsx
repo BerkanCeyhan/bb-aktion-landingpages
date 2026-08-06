@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { track, sendStep } from './tracking.js';
+import { subscribe } from './klaviyo.js';
 import { HookScreen, SingleScreen, MultiScreen, InterstitialScreen, EmailScreen, LoadingScreen, ResultScreen } from './Screens.jsx';
 
 export default function QuizEngine({ config, Explosion }) {
@@ -94,21 +95,12 @@ export default function QuizEngine({ config, Explosion }) {
     };
 
     track('Subscribe', { quiz: config.id });
-    // Angemeldet wird genau einmal, und zwar im Apps Script.
-    //
-    // Hier stand frueher zusaetzlich ein Browser-Aufruf an Klaviyo, gedacht als
-    // Rueckfall. Er war keiner: er feuerte unbedingt und zuerst, also lief jede
-    // Adresse zweimal in dieselbe Double-Opt-in-Liste. Klaviyo verschickt bei
-    // einer erneuten Anmeldung eines noch unbestaetigten Profils die
-    // Bestaetigungsmail erneut, jeder Lead bekam also zwei davon binnen einer
-    // Minute. Das liest sich wie Phishing und ist der wahrscheinlichste Grund
-    // dafuer, dass nur rund 42 % der Adressen je bestaetigt haben.
-    //
-    // Ein echter Rueckfall ginge hier ohnehin nicht: der Relay-Aufruf laeuft
-    // mit mode:'no-cors', der Browser erfaehrt nie, ob er ankam. Der Relay ist
-    // server-zu-server, wird von keinem Trackerblocker geschluckt, und sein
-    // Ergebnis steht je Lead in der Spalte klaviyo_status. Diese Sichtbarkeit
-    // hatte der Browser-Aufruf nie.
+    // Zwei Wege absichtlich. Der verlaessliche laeuft im Apps Script, weil
+    // a.klaviyo.com im Browser von Trackerblockern und In-App-Browsern
+    // geschluckt wird. Dieser Aufruf hier ist nur noch Rueckfall fuer den Fall,
+    // dass der Relay ausfaellt. Klaviyo fuehrt beide auf dasselbe Profil
+    // zusammen, doppelt angelegt wird nichts.
+    subscribe(email, klaviyoProps);
     // Gespeichert wird genau einmal, im Ergebnisscreen.
     setSubmitExtra({ email, newsletterOptin: opts.newsletter === true, klaviyoProps });
     setAnswers((a) => ({ ...a, _email: email }));
