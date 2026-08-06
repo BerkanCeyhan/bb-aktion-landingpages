@@ -25,7 +25,7 @@
 </head>
 <body style="margin:0;padding:0;background-color:#FBF1DD;">
 <div style="display:none;font-size:1px;color:#FBF1DD;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;">
-  {{ person.quiz_result_title|default:"Deine Box" }}, {{ person.quiz_box_items|default:"19 – 25" }} Bestseller, Warenwert {{ person.quiz_box_wert|default:"über 120€" }}.
+  {{ person.quiz_result_title|default:"Deine Box" }}, {{ person.quiz_box_items|default:"19 – 25" }} verifizierte Bestseller aus dem laufenden Sortiment.
   &#8203;&#847;&zwnj;&nbsp;&#8203;&#847;&zwnj;&nbsp;&#8203;&#847;&zwnj;&nbsp;&#8203;&#847;&zwnj;&nbsp;
 </div>
 
@@ -59,17 +59,11 @@
       Beispielinhalte. Der Inhalt wird zufällig zusammengestellt.
     </td></tr>
 
-    <!-- Die Rechnung als ein typografischer Satz statt als Kachelzeile. Die
-         Ergebnismail hat die Tabelle schon gezeigt, eine Wiederholung waere
-         Fuellmaterial. Ersparnis je Box aus dem Ergebnistyp abgeleitet, weil
-         sie nicht als eigene Profileigenschaft vorliegt. -->
+    <!-- Preis und Stueckzahl, keine Eurobetraege darueber hinaus. -->
     <tr><td class="px" bgcolor="#FBF1DD" style="background-color:#FBF1DD;padding:30px 40px 0 40px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:19px;line-height:31px;color:#241C15;">
-      Du zahlst <b>{{ person.quiz_box_price|default:"84,90€" }}</b> und bekommst
-      {{ person.quiz_box_items|default:"19 – 25" }} verifizierte Bestseller mit einem Warenwert von
-      <b style="color:#FF6B2C;">{{ person.quiz_box_wert|default:"über 120€" }}</b>.
-      Macht mindestens
-      <b style="color:#FF6B2C;">{% if person.quiz_result_type == 'S' %}15,10€{% elif person.quiz_result_type == 'M' %}30,10€{% else %}35,10€{% endif %}</b>,
-      die bei dir bleiben.
+      Du zahlst <b>{{ person.quiz_box_price|default:"84,90€" }}</b> für
+      <b style="color:#FF6B2C;">{{ person.quiz_box_items|default:"19 – 25" }} verifizierte Bestseller</b>
+      aus dem laufenden Sortiment. Deutlich mehr Inhalt, als der Preis vermuten lässt.
     </td></tr>
 
     <!-- CTA -->
@@ -100,9 +94,9 @@
     </td></tr>
     <tr><td class="px" bgcolor="#FBF1DD" style="background-color:#FBF1DD;padding:12px 40px 0 40px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:16px;line-height:27px;color:#4A3B2C;">
       Ehrliche Antwort: Die Box wird zufällig gepackt, und nicht jeder Artikel wird dein Favorit.
-      Genau deshalb ist der Warenwert so gerechnet, dass sich die Box auch dann noch lohnt,
-      wenn zwei Sachen bei dir nicht landen. Gezogen wird ausschließlich aus dem laufenden
-      Sortiment: keine Restposten, nichts Abgelaufenes.
+      Genau deshalb ist sie so kalkuliert, dass sie sich auch dann noch lohnt, wenn zwei Sachen
+      bei dir nicht landen. Gezogen wird ausschließlich aus dem laufenden Sortiment:
+      keine Restposten, nichts Abgelaufenes.
     </td></tr>
 
     <tr><td bgcolor="#FBF1DD" style="background-color:#FBF1DD;font-size:0;line-height:0;height:40px;">&nbsp;</td></tr>

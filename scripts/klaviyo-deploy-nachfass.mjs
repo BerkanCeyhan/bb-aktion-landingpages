@@ -45,6 +45,10 @@ const WITH_FLOW = args.includes('--flow');
 // sop/e-mail-einsammeln.md §5. --relink verknuepft die Aktionen neu, dann
 // klont Klaviyo vom aktuellen Stand.
 const RELINK = args.includes('--relink');
+// Schaltet den Flow scharf. Bewusst ein eigener, ausgeschriebener Schalter und
+// nie Teil von --flow: ab hier gehen echte Mails raus, und das ist die einzige
+// Handlung in dieser Strecke, die sich nicht zurueckholen laesst.
+const GO_LIVE = args.includes('--live');
 const FLOW_NAME = 'Quiz Funnel – Nachfass (Marketing-Opt-in)';
 
 function readKey() {
@@ -105,14 +109,14 @@ async function upsertTemplate(name, htmlBody, textBody) {
 
 const TEXT_1 = `Deine ${'{{ person.quiz_result_title|default:"Mystery Box" }}'} wartet auf dich.
 
-Du zahlst {{ person.quiz_box_price|default:"84,90EUR" }} und bekommst
-{{ person.quiz_box_items|default:"19-25" }} verifizierte Bestseller mit einem
-Warenwert von {{ person.quiz_box_wert|default:"ueber 120EUR" }}.
+Du zahlst {{ person.quiz_box_price|default:"84,90EUR" }} fuer
+{{ person.quiz_box_items|default:"19-25" }} verifizierte Bestseller aus dem
+laufenden Sortiment. Deutlich mehr Inhalt, als der Preis vermuten laesst.
 
 Zur Box: https://brustbizeps.de/products/mystery-box-supplements
 
 Die Box wird zufaellig gepackt, und nicht jeder Artikel wird dein Favorit.
-Genau deshalb ist der Warenwert so gerechnet, dass sie sich auch dann lohnt.
+Genau deshalb ist sie so kalkuliert, dass sie sich auch dann lohnt.
 
 Abmelden: {% unsubscribe_link %}`;
 
@@ -124,8 +128,8 @@ XL und die M Box.
 Dein Code: ${DISCOUNT_CODE}
 Gilt fuer die XL Box und die M Box.
 
-XL Box: 84,90EUR statt dessen 76,41EUR, Warenwert ueber 120EUR
-M Box:  59,90EUR statt dessen 53,91EUR, Warenwert ueber 90EUR
+XL Box: 84,90EUR statt dessen 76,41EUR, 19-25 Artikel
+M Box:  59,90EUR statt dessen 53,91EUR, 13-18 Artikel
 
 Zur Box mit eingeloestem Code:
 https://brustbizeps.de/discount/${DISCOUNT_CODE}?redirect=%2Fproducts%2Fmystery-box-supplements
@@ -193,6 +197,21 @@ async function relink(templateIds) {
   console.log(`  Status unveraendert: ${flow.attributes.status}.`);
 }
 
+async function setLive() {
+  const flows = await api(`https://a.klaviyo.com/api/flows/?filter=${encodeURIComponent(`equals(name,"${FLOW_NAME}")`)}`);
+  const flow = flows?.data?.[0];
+  if (!flow) throw new Error(`Kein Flow namens "${FLOW_NAME}".`);
+  if (flow.attributes.status === 'live') {
+    console.log(`\nFlow ${flow.id} steht bereits auf live.`);
+    return;
+  }
+  await api(`https://a.klaviyo.com/api/flows/${flow.id}/`, 'PATCH', {
+    data: { type: 'flow', id: flow.id, attributes: { status: 'live' } },
+  });
+  const after = await api(`https://a.klaviyo.com/api/flows/${flow.id}/`);
+  console.log(`\nFlow ${flow.id} ist jetzt: ${after.data.attributes.status}`);
+}
+
 async function main() {
   console.log('Templates:');
   const t1 = await upsertTemplate('Quiz Nachfass 1 – Box wartet', html('klaviyo-nachfass-1.html'), TEXT_1);
@@ -208,6 +227,12 @@ async function main() {
   if (RELINK) {
     if (!t2) throw new Error('--relink braucht beide Templates, also auch DISCOUNT_CODE.');
     await relink([t1, t2]);
+    if (GO_LIVE) await setLive();
+    return;
+  }
+
+  if (GO_LIVE && !WITH_FLOW) {
+    await setLive();
     return;
   }
 
